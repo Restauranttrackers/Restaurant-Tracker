@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "121123804305",
+    "project_id": "maptest-369008",
+    "storage_bucket": "maptest-369008.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:121123804305:android:3a4a3118c8c097a4c79b30",
+        "android_client_info": {
+          "package_name": "com.bignerdranch.android.maptest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "121123804305-a2tgamqb9th227rnnlkcekufq21fmn01.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDexcxh70b7fB98U5zojsVMJ7NqavSmvrk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "121123804305-a2tgamqb9th227rnnlkcekufq21fmn01.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
