@@ -23,6 +23,8 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.delay
+import models.Database
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
@@ -34,13 +36,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient : FusedLocationProviderClient
 
+    private val data = Database()
+
     companion object{
         private const val LOCATION_REQUEST_CODE = 1
     }
 
 
     // Database test
-    val db = Firebase.firestore
+    //val db = Firebase.firestore
     val user = hashMapOf(
         "first" to "Ada",
         "last" to "Lovelace"
@@ -93,8 +97,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         mMap.setOnMarkerClickListener(this)
 
         setupMap()
-        Log.d(TAG, "test######")
-
     }
 
     @SuppressLint("MissingPermission")
@@ -116,6 +118,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             }
         }
         // read from database test
+/*
         db.collection("restaurants")
             .get()
             .addOnSuccessListener { result ->
@@ -132,6 +135,32 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             .addOnFailureListener { exception ->
                 Log.w(TAG, "error getting documents.", exception)
             }
+*/
+
+        //Log.d(TAG, "before database test")
+
+        data.getRestaurants()
+        //Log.d(TAG, "${data.listRestaurants.elementAt(1)}")
+/*
+        for (document in data.listRestaurants) {
+            val rOnePos = LatLng(document.lat as Double, document.long as Double)
+            placeMarkerOnMap(rOnePos, document.name as String, document.color as String)
+        }
+*/
+
+
+
+        //Log.d(TAG, "after database test")
+
+        /*
+        if (data.listRestaurants != null) {
+            for (document in data.listRestaurants) {
+                val rOnePos = LatLng(document.lat as Double, document.long as Double)
+                placeMarkerOnMap(rOnePos, document.name as String, document.color as String)
+            }
+        }
+        */
+
 
 
     }
