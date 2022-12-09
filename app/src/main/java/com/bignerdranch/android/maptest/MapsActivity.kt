@@ -61,7 +61,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        data.getRestaurants() // calls when the app runs so that we can access this in setupMap
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -87,6 +87,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
 
     }
+
 
     override fun onMapReady(googleMap: GoogleMap) {
 
@@ -138,9 +139,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 */
 
         //Log.d(TAG, "before database test")
-
-        data.getRestaurants()
-        //Log.d(TAG, "${data.listRestaurants.elementAt(1)}")
+        // data.getRestaurants()
+        // val test1 = data.getRestaurants()
+        // Log.d(TAG, test1.toString())
+        Log.d(TAG, "${data.listRestaurants.elementAt(0)}")
+        Log.d(TAG, "${data.listRestaurants.elementAt(1)}")
 /*
         for (document in data.listRestaurants) {
             val rOnePos = LatLng(document.lat as Double, document.long as Double)

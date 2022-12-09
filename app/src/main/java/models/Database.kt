@@ -30,12 +30,14 @@ class Database {
         Log.d(TAG,"getRestaruants function start")
 
         db.collection("restaurants")
-            .get()
-            .addOnSuccessListener {
+            .get().addOnSuccessListener{
+
                 for(result in it) {
                     Log.d(TAG, "${result.id} => ${result.data}")
-                    val restaurant = result.toObject<Restaurant>()
-                    Log.d(TAG, "${restaurant}")
+                    var restaurant = result.toObject<Restaurant>()
+                    restaurant.id = result.id; /* get id too, maybe not important but
+                    doesn't hurt*/
+                    Log.d(TAG, "${restaurant} && ${restaurant.id}")
                     listRestaurants.add(restaurant)
                     //listRestaurants += restaurant // crashes app
                 }
@@ -55,7 +57,7 @@ data class User(
 )
 
 data class Restaurant(
-    val id: String? = null,
+    var id: String? = null,
     val color: String? = null,
     val lat: Int? = null,
     val long: Int? = null,
