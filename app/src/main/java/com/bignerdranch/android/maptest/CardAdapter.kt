@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.imageview.ShapeableImageView
 
@@ -26,7 +27,7 @@ class CardAdapter(private val restaurantList: ArrayList<Restaurants>) : Recycler
         val isExpanded : Boolean = currentItem.expanded
         holder.relativeLayout.visibility = if (isExpanded) View.VISIBLE else View.GONE
 
-        holder.restaName.setOnClickListener {
+        holder.card.setOnClickListener {
             currentItem.expanded = !currentItem.expanded
             notifyItemChanged(position)
         }
@@ -43,5 +44,6 @@ class CardAdapter(private val restaurantList: ArrayList<Restaurants>) : Recycler
         val restaInfo : TextView = itemView.findViewById(R.id.rest_info)
         val restaDescr : TextView = itemView.findViewById(R.id.rest_desc)
         val relativeLayout : RelativeLayout = itemView.findViewById(R.id.expanded_view)
+        val card : CardView = itemView.findViewById(R.id.card)
     }
 }
