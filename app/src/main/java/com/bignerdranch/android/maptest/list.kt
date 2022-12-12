@@ -28,10 +28,10 @@ class list : Fragment() {
     private lateinit var adapter: CardAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var restaurantsArrayList: ArrayList<Restaurants>
-
     lateinit var imageId : Array<Int>
     lateinit var restaName : Array<String>
     lateinit var restaInfo : Array<String>
+    lateinit var restaDescr : Array<String>
     lateinit var restaurants: Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -115,6 +115,16 @@ class list : Fragment() {
             "Kebab"
         )
 
+        restaDescr = arrayOf(
+            getString(R.string.Lorem_ipsum),
+            getString(R.string.Lorem_ipsum),
+            getString(R.string.Lorem_ipsum),
+            getString(R.string.Lorem_ipsum),
+            getString(R.string.Lorem_ipsum),
+            getString(R.string.Lorem_ipsum),
+            getString(R.string.Lorem_ipsum)
+        )
+
         restaurants = arrayOf(
             "?",
             "?",
@@ -126,7 +136,7 @@ class list : Fragment() {
         )
 
         for (i in imageId.indices) {
-            val restaurants = Restaurants(imageId[i], restaName[i], restaInfo[i])
+            val restaurants = Restaurants(imageId[i], restaName[i], restaInfo[i], restaDescr[i])
             restaurantsArrayList.add(restaurants)
         }
     }
