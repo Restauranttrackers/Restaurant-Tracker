@@ -6,6 +6,7 @@ import android.content.ContentValues.TAG
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.os.SystemClock.sleep
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -42,26 +43,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         private const val LOCATION_REQUEST_CODE = 1
     }
 
-
-    // Database test
-    //val db = Firebase.firestore
-    val user = hashMapOf(
-        "first" to "Ada",
-        "last" to "Lovelace"
-    )
-    // add user
-    /*
-         db.collection("users").add(user).addOnSuccessListener { documentReference ->
-            Log.d(TAG, "documentsnapshot added with ID: ${documentReference.id}")
-        }.addOnFailureListener { e ->
-            Log.w(TAG, "error adding document", e)
-        }*/
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        data.getRestaurants() // calls when the app runs so that we can access this in setupMap
+        //data.getRestaurants() // calls when the app runs so that we can access this in setupMap
+        data.getRestaurantsByStatus("Planned") // calls when the app runs so that we can access this in setupMap
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -71,12 +56,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         mapFragment.getMapAsync(this)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
                 // move everything that is related to map into map() fragment
                 // not getting all map functions atm
-                R.id.map -> replaceFragment(mapFragment)
+                R.id.map -> replaceFragment(map())
                 R.id.list -> replaceFragment(list())
                 R.id.profile -> replaceFragment(profile())
                 else -> {
@@ -85,7 +69,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             }
             true
         }
+    }
 
+    override fun onPause() {
+        super.onPause()
+        data.listRestaurants?.clear()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        data.getRestaurants()
     }
 
 
@@ -94,7 +87,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         mMap = googleMap
         mMap.uiSettings.isZoomControlsEnabled = true
 
-        // can i update this->restaurant from here ? (database) or should it be done from func above?
         mMap.setOnMarkerClickListener(this)
 
         setupMap()
@@ -118,70 +110,27 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
             }
         }
-        // read from database test
-/*
-        db.collection("restaurants")
-            .get()
-            .addOnSuccessListener { result ->
 
-                for(document in result) {
-                    Log.d(TAG, "${document.id} => ${document.data}")
-                    Log.d(TAG, "${document.data["name"]}")
-                    // restaurant test
-                    val rOnePos = LatLng(document.data["lat"] as Double, document.data["long"] as Double)
-                    placeMarkerOnMap(rOnePos, document.data["name"] as String, document.data["color"] as String)
-
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "error getting documents.", exception)
-            }
-*/
-
-        //Log.d(TAG, "before database test")
-        // data.getRestaurants()
-        // val test1 = data.getRestaurants()
-        // Log.d(TAG, test1.toString())
-        Log.d(TAG, "${data.listRestaurants.elementAt(0)}")
-        Log.d(TAG, "${data.listRestaurants.elementAt(1)}")
-/*
-        for (document in data.listRestaurants) {
+        // place initial markers on map from database list
+        for (document in data.listRestaurants!!) {
             val rOnePos = LatLng(document.lat as Double, document.long as Double)
-            placeMarkerOnMap(rOnePos, document.name as String, document.color as String)
+            placeMarkerOnMap(rOnePos, document.name as String, document.status as String)
         }
-*/
-
-
-
-        //Log.d(TAG, "after database test")
-
-        /*
-        if (data.listRestaurants != null) {
-            for (document in data.listRestaurants) {
-                val rOnePos = LatLng(document.lat as Double, document.long as Double)
-                placeMarkerOnMap(rOnePos, document.name as String, document.color as String)
-            }
-        }
-        */
-
-
-
     }
 
-    private fun placeMarkerOnMap(currentLatLong: LatLng, title: String, colorChoice: String){
+    private fun placeMarkerOnMap(currentLatLong: LatLng, title: String, restaurantStatus: String){
         val greenMarker = BitmapDescriptorFactory.HUE_GREEN
         val redMarker = BitmapDescriptorFactory.HUE_RED
         val yellowMarker = BitmapDescriptorFactory.HUE_YELLOW
         val orangeMarker = BitmapDescriptorFactory.HUE_ORANGE
         val placeholderMarker = BitmapDescriptorFactory.HUE_VIOLET
-        val colorMarker = when (colorChoice) {
-            "Green" -> greenMarker
-            "Red" -> redMarker
-            "Yellow" -> yellowMarker
-            "Orange" -> orangeMarker
+        val colorMarker = when (restaurantStatus) {
+            "Visited" -> greenMarker
+            "Not visited" -> redMarker
+            "Planned" -> orangeMarker
+            "Hidden" -> yellowMarker
             else -> placeholderMarker
         }
-
 
         val markerOptions = MarkerOptions().position(currentLatLong).icon(BitmapDescriptorFactory.defaultMarker(colorMarker))
         markerOptions.title(title)

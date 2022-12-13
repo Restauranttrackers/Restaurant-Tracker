@@ -9,8 +9,7 @@ import com.google.firebase.ktx.Firebase
 class Database {
     private val db = Firebase.firestore
     lateinit var listUsers: List<User>
-    var listRestaurants: MutableList<Restaurant> = mutableListOf()
-    lateinit var listIDrest: MutableList<String>
+    var listRestaurants: MutableList<Restaurant> ?= mutableListOf()
 
     public fun getUsers() {
         db.collection("users")
@@ -27,27 +26,38 @@ class Database {
     }
 
     public fun getRestaurants() {
-        Log.d(TAG,"getRestaruants function start")
-
+        listRestaurants?.clear()
         db.collection("restaurants")
             .get().addOnSuccessListener{
-
                 for(result in it) {
                     Log.d(TAG, "${result.id} => ${result.data}")
                     var restaurant = result.toObject<Restaurant>()
-                    restaurant.id = result.id; /* get id too, maybe not important but
-                    doesn't hurt*/
+                    restaurant.id = result.id;
                     Log.d(TAG, "${restaurant} && ${restaurant.id}")
-                    listRestaurants.add(restaurant)
-                    //listRestaurants += restaurant // crashes app
+                    listRestaurants?.add(restaurant)
                 }
             }
             .addOnFailureListener {
                 Log.w(TAG, "Error getting documents: ", it)
             }
-        //Log.d(TAG, "${listRestaurants.elementAt(1)}") // crashes app
-        Log.d(TAG,"getRestaruants function end")
+    }
 
+    public fun getRestaurantsByStatus(status: String) {
+        listRestaurants?.clear()
+        db.collection("restaurants")
+            .whereEqualTo("status", status)
+            .get().addOnSuccessListener{
+                for(result in it) {
+                    Log.d(TAG, "${result.id} => ${result.data}")
+                    var restaurant = result.toObject<Restaurant>()
+                    restaurant.id = result.id;
+                    Log.d(TAG, "${restaurant} && ${restaurant.id}")
+                    listRestaurants?.add(restaurant)
+                }
+            }
+            .addOnFailureListener {
+                Log.w(TAG, "Error getting documents: ", it)
+            }
     }
 }
 
@@ -58,8 +68,8 @@ data class User(
 
 data class Restaurant(
     var id: String? = null,
-    val color: String? = null,
-    val lat: Int? = null,
-    val long: Int? = null,
+    val status: String? = null,
+    val lat: Double? = null,
+    val long: Double? = null,
     val name: String? = null
 )
