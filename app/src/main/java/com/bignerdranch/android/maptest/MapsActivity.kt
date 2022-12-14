@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import models.Database
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
@@ -32,7 +33,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private lateinit var binding: ActivityMapsBinding
 
     private lateinit var lastLocation: Location
-    private lateinit var fusedLocationClient : FusedLocationProviderClient
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     companion object{
         private const val LOCATION_REQUEST_CODE = 1
@@ -125,7 +126,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                     Log.d(TAG, "${document.data["name"]}")
                     // restaurant test
                     val rOnePos = LatLng(document.data["lat"] as Double, document.data["long"] as Double)
-                    placeMarkerOnMap(rOnePos, document.data["name"] as String, document.data["color"] as String)
+                    placeMarkerOnMap(rOnePos, document.data["name"] as String, document.data["status"] as String)
 
                 }
             }
@@ -136,17 +137,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     }
 
-    private fun placeMarkerOnMap(currentLatLong: LatLng, title: String, colorChoice: String){
+    private fun placeMarkerOnMap(currentLatLong: LatLng, title: String, restaurantStatus: String){
         val greenMarker = BitmapDescriptorFactory.HUE_GREEN
         val redMarker = BitmapDescriptorFactory.HUE_RED
         val yellowMarker = BitmapDescriptorFactory.HUE_YELLOW
         val orangeMarker = BitmapDescriptorFactory.HUE_ORANGE
         val placeholderMarker = BitmapDescriptorFactory.HUE_VIOLET
-        val colorMarker = when (colorChoice) {
-            "Green" -> greenMarker
-            "Red" -> redMarker
-            "Yellow" -> yellowMarker
-            "Orange" -> orangeMarker
+        val colorMarker = when (restaurantStatus) {
+            "Visited" -> greenMarker
+            "Not visited" -> redMarker
+            "Planned" -> yellowMarker
+            "Hidden" -> orangeMarker
             else -> placeholderMarker
         }
 

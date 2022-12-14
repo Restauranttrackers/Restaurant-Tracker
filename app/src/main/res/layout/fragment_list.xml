@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".MapsActivity"
     >
+    <!--<include layout="@layout/filter" />-->
+    <!--android:layout_marginTop="40dp"-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
