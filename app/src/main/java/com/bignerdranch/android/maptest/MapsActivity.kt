@@ -1,13 +1,12 @@
+@file:Suppress("DEPRECATION")
+
 package com.bignerdranch.android.maptest
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import android.os.SystemClock.sleep
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -18,14 +17,9 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.delay
+import com.google.android.gms.maps.model.*
 import models.Database
+import java.util.*
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
@@ -45,8 +39,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //data.getRestaurants() // calls when the app runs so that we can access this in setupMap
-        data.getRestaurantsByStatus("Planned") // calls when the app runs so that we can access this in setupMap
+        data.getRestaurants() // calls when the app runs so that we can access this in setupMap
+        //data.getRestaurantsByStatus("Planned") // calls when the app runs so that we can access this in setupMap
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -60,7 +54,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             when(it.itemId) {
                 // move everything that is related to map into map() fragment
                 // not getting all map functions atm
-                R.id.map -> replaceFragment(map())
+                R.id.map -> hideCurrentFragment()
                 R.id.list -> replaceFragment(list())
                 R.id.profile -> replaceFragment(profile())
                 else -> {
@@ -89,23 +83,42 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         mMap.setOnMarkerClickListener(this)
 
-        setupMap()
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            setupMap()
+        } else {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_REQUEST_CODE)
+        }
+    }
+
+    @SuppressLint("MissingSuperCall")
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode == LOCATION_REQUEST_CODE && PackageManager.PERMISSION_GRANTED in grantResults) setupMap()
     }
 
     @SuppressLint("MissingPermission")
     private fun setupMap() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_REQUEST_CODE)
-            return
-        }
-
         mMap.isMyLocationEnabled = true
+
+        mMap.setMapStyle(
+            MapStyleOptions(
+                "[\n" +
+                        " {\n" +
+                        "   \"featureType\": \"poi\",\n" +
+                        "   \"elementType\": \"all\",\n" +
+                        "   \"stylers\": [\n" +
+                        "     {\n" +
+                        "       \"visibility\": \"off\"\n" +
+                        "     }\n" +
+                        "   ]\n" +
+                        " }\n" +
+                        "]",
+            )
+        )
 
         fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
             if (location != null) {
                 lastLocation = location
                 val currentLatLong = LatLng(location.latitude, location.longitude)
-                placeMarkerOnMap(currentLatLong, "My Position $currentLatLong", "test")
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong, 12f))
 
             }
@@ -142,8 +155,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frame_layout, fragment)
+        fragmentTransaction.replace(R.id.frame_layout, fragment, "currentFragment")
         fragmentTransaction.commit()
     }
 
+    private fun hideCurrentFragment() {
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        val currentFrag = fragmentManager.findFragmentByTag("currentFragment")!!
+        fragmentTransaction.hide(currentFrag)
+        fragmentTransaction.commit()
+    }
 }
