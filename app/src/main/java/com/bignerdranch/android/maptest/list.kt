@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bignerdranch.android.maptest.MapsActivity.Companion.data
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import models.Database
@@ -85,8 +84,7 @@ class list : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //data.getRestaurantsByStatus("Visited")
-        //getData()
+        getData()
 
         val layoutManager = LinearLayoutManager(context)
         recyclerView = view.findViewById(R.id.recycler_view)
