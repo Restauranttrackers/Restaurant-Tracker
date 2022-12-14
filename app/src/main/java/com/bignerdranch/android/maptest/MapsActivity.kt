@@ -31,10 +31,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient : FusedLocationProviderClient
 
-    private val data = Database()
+    //private val data = Database()
 
     companion object{
         private const val LOCATION_REQUEST_CODE = 1
+        public val data = Database()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

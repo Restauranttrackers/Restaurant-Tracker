@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bignerdranch.android.maptest.MapsActivity.Companion.data
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -77,7 +78,11 @@ class list : Fragment() {
     }
 
     private fun getRestaurantData() {
-        for (i in 1..4) {
+        for(document in data.listRestaurants!!) {
+            dataInitialize(document.name as String, document.status as String)
+        }
+
+        /*for (i in 1..4) {
             dataInitialize("Restaurant $i", "Not Visited")
         }
         for (i in 5..13) {
@@ -88,15 +93,15 @@ class list : Fragment() {
         }
         for (i in 21..23) {
             dataInitialize("Restaurant $i", "Hidden")
-        }
+        }*/
     }
 
-    private fun dataInitialize(title: String, restaurantStatus: String) {
+    private fun dataInitialize(name: String, status: String) {
         val imageId : Int = R.drawable.example_image
-        val restaName : String = title
+        val restaName : String = name
         val restaInfo : String = getString(R.string.some_info_about_the_restaurant)
         val restaDescr : String = getString(R.string.lorem_ipsum)
-        val mark: String = restaurantStatus
+        val mark: String = status
 
         val restaurants = Restaurants(imageId, restaName, restaInfo, restaDescr, mark)
         restaurantsArrayList.add(restaurants)
