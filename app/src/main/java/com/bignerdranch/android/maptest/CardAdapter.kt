@@ -23,6 +23,9 @@ class CardAdapter(private val restaurantList: MutableList<Restaurants>) : Recycl
         holder.restaInfo.text = currentItem.restaInfo
         holder.restaDescr.text = currentItem.restaDescr
 
+        // Remove later
+        holder.restaMark.text = currentItem.mark
+
         // Expand card on click
         val isExpanded: Boolean = currentItem.expanded
         holder.relativeLayout.visibility = if (isExpanded) View.VISIBLE else View.GONE
@@ -44,5 +47,8 @@ class CardAdapter(private val restaurantList: MutableList<Restaurants>) : Recycl
         val restaDescr: TextView = itemView.findViewById(R.id.rest_desc)
         val relativeLayout: RelativeLayout = itemView.findViewById(R.id.expanded_view)
         val card: CardView = itemView.findViewById(R.id.card)
+
+        // Remove later
+        val restaMark: TextView = itemView.findViewById(R.id.rest_mark)
     }
 }
