@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,6 +22,10 @@ class list : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private lateinit var adapter: CardAdapter
+    private lateinit var recyclerView: RecyclerView
+    private var restaurantsArrayList: MutableList<Restaurants> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,4 +62,53 @@ class list : Fragment() {
                 }
             }
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        getRestaurantData()
+
+        val layoutManager = LinearLayoutManager(context)
+        recyclerView = view.findViewById(R.id.recycler_view)
+        recyclerView.layoutManager = layoutManager
+        recyclerView.setHasFixedSize(true)
+        adapter = CardAdapter(restaurantsArrayList)
+        recyclerView.adapter = adapter
+    }
+
+    private fun getRestaurantData() {
+        for (i in 1..4) {
+            dataInitialize("Restaurant $i", "Not Visited")
+        }
+        for (i in 5..13) {
+            dataInitialize("Restaurant $i", "Visited")
+        }
+        for (i in 14..20) {
+            dataInitialize("Restaurant $i", "Planned")
+        }
+        for (i in 21..23) {
+            dataInitialize("Restaurant $i", "Hidden")
+        }
+    }
+
+    private fun dataInitialize(title: String, restaurantStatus: String) {
+        val imageId : Int = R.drawable.example_image
+        val restaName : String = title
+        val restaInfo : String = getString(R.string.some_info_about_the_restaurant)
+        val restaDescr : String = getString(R.string.lorem_ipsum)
+        val mark: String = restaurantStatus
+
+        val restaurants = Restaurants(imageId, restaName, restaInfo, restaDescr, mark)
+        restaurantsArrayList.add(restaurants)
+    }
 }
+
+data class Restaurants(
+    var restaImage: Int, // Restaurant image
+    var restaName: String, // Restaurant name
+    var restaInfo: String, // Some info like what type of food
+    var restaDescr: String, // Restaurant description
+    var mark: String, // Current set mark of restaurant
+    var expanded : Boolean = false, // If card is expanded or not
+    var filtered : Boolean = true
+)
