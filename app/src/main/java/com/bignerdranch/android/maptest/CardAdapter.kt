@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.imageview.ShapeableImageView
+import com.squareup.picasso.Picasso
 
 class CardAdapter(private val restaurantList: MutableList<Restaurants>) : RecyclerView.Adapter<CardAdapter.CardHolder>()
 {
@@ -18,7 +19,7 @@ class CardAdapter(private val restaurantList: MutableList<Restaurants>) : Recycl
 
     override fun onBindViewHolder(holder: CardHolder, position: Int) {
         val currentItem = restaurantList[position]
-        holder.restaImage.setImageResource(currentItem.restaImage)
+        Picasso.get().load(currentItem.restaImage).placeholder(R.drawable.example_image).into(holder.restaImage)
         holder.restaName.text = currentItem.restaName
         holder.restaInfo.text = currentItem.restaInfo
         holder.restaDescr.text = currentItem.restaDescr

@@ -60,4 +60,7 @@ dependencies {
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:31.1.0')
     implementation 'com.google.firebase:firebase-firestore-ktx'
+
+    // Image loading library
+    implementation 'com.squareup.picasso:picasso:2.8'
 }

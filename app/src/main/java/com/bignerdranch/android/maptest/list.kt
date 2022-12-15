@@ -79,28 +79,15 @@ class list : Fragment() {
 
     private fun getRestaurantData() {
         for(document in data.listRestaurants!!) {
-            dataInitialize(document.name as String, document.status as String)
+            dataInitialize(document.name as String, document.status as String, document.info as String, document.description as String, document.image as String)
         }
-
-        /*for (i in 1..4) {
-            dataInitialize("Restaurant $i", "Not Visited")
-        }
-        for (i in 5..13) {
-            dataInitialize("Restaurant $i", "Visited")
-        }
-        for (i in 14..20) {
-            dataInitialize("Restaurant $i", "Planned")
-        }
-        for (i in 21..23) {
-            dataInitialize("Restaurant $i", "Hidden")
-        }*/
     }
 
-    private fun dataInitialize(name: String, status: String) {
-        val imageId : Int = R.drawable.example_image
+    private fun dataInitialize(name: String, status: String, info: String, description: String, image_url: String) {
+        val imageId: String = image_url
         val restaName : String = name
-        val restaInfo : String = getString(R.string.some_info_about_the_restaurant)
-        val restaDescr : String = getString(R.string.lorem_ipsum)
+        val restaInfo : String = info
+        val restaDescr : String = description
         val mark: String = status
 
         val restaurants = Restaurants(imageId, restaName, restaInfo, restaDescr, mark)
@@ -109,11 +96,10 @@ class list : Fragment() {
 }
 
 data class Restaurants(
-    var restaImage: Int, // Restaurant image
+    var restaImage: String, // Restaurant image
     var restaName: String, // Restaurant name
     var restaInfo: String, // Some info like what type of food
     var restaDescr: String, // Restaurant description
     var mark: String, // Current set mark of restaurant
-    var expanded : Boolean = false, // If card is expanded or not
-    var filtered : Boolean = true
+    var expanded : Boolean = false // If card is expanded or not
 )
