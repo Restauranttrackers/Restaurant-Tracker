@@ -7,6 +7,7 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -64,6 +65,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             }
             true
         }
+        filterByClick()
     }
 
     override fun onPause() {
@@ -166,5 +168,95 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         val currentFrag = fragmentManager.findFragmentByTag("currentFragment")!!
         fragmentTransaction.hide(currentFrag)
         fragmentTransaction.commit()
+    }
+
+    private fun filterByClick() {
+        // Filtreringstest
+        val notVisited: Button = findViewById(R.id.not_visited_button)
+        val visited = findViewById<Button>(R.id.visited_button)
+        val planned = findViewById<Button>(R.id.planned_button)
+        val hidden = findViewById<Button>(R.id.hidden_button)
+
+        var notVisitedClicked: Boolean = false
+        var visitedClicked: Boolean = false
+        var plannedClicked: Boolean = false
+        var hiddenClicked: Boolean = false
+
+        notVisited.setOnClickListener {
+            if(!notVisitedClicked) {
+                data.getRestaurantsByStatus("Not visited")
+                notVisited.setBackgroundColor(getColor(R.color.green))
+                visited.setBackgroundColor(getColor(R.color.lightGray))
+                planned.setBackgroundColor(getColor(R.color.lightGray))
+                hidden.setBackgroundColor(getColor(R.color.lightGray))
+                notVisitedClicked = true
+                visitedClicked = false
+                plannedClicked = false
+                hiddenClicked = false
+            }
+            else if(notVisitedClicked){
+                data.getRestaurants()
+                notVisited.setBackgroundColor(getColor(R.color.lightGray))
+                notVisitedClicked = false
+            }
+            replaceFragment(list())
+        }
+        visited.setOnClickListener {
+            if(!visitedClicked) {
+                data.getRestaurantsByStatus("Visited")
+                visited.setBackgroundColor(getColor(R.color.green))
+                notVisited.setBackgroundColor(getColor(R.color.lightGray))
+                planned.setBackgroundColor(getColor(R.color.lightGray))
+                hidden.setBackgroundColor(getColor(R.color.lightGray))
+                visitedClicked = true
+                notVisitedClicked = false
+                plannedClicked = false
+                hiddenClicked = false
+            }
+            else if(visitedClicked){
+                data.getRestaurants()
+                visited.setBackgroundColor(getColor(R.color.lightGray))
+                visitedClicked = false
+            }
+            replaceFragment(list())
+        }
+        planned.setOnClickListener {
+            if(!plannedClicked) {
+                data.getRestaurantsByStatus("Planned")
+                planned.setBackgroundColor(getColor(R.color.green))
+                notVisited.setBackgroundColor(getColor(R.color.lightGray))
+                visited.setBackgroundColor(getColor(R.color.lightGray))
+                hidden.setBackgroundColor(getColor(R.color.lightGray))
+                plannedClicked = true
+                notVisitedClicked = false
+                visitedClicked = false
+                hiddenClicked = false
+            }
+            else if(plannedClicked){
+                data.getRestaurants()
+                planned.setBackgroundColor(getColor(R.color.lightGray))
+                plannedClicked = false
+            }
+            replaceFragment(list())
+        }
+        hidden.setOnClickListener {
+            if(!hiddenClicked) {
+                data.getRestaurantsByStatus("Hidden")
+                hidden.setBackgroundColor(getColor(R.color.green))
+                notVisited.setBackgroundColor(getColor(R.color.lightGray))
+                visited.setBackgroundColor(getColor(R.color.lightGray))
+                planned.setBackgroundColor(getColor(R.color.lightGray))
+                hiddenClicked = true
+                notVisitedClicked = false
+                visitedClicked = false
+                plannedClicked = false
+            }
+            else if(hiddenClicked){
+                data.getRestaurants()
+                hidden.setBackgroundColor(getColor(R.color.lightGray))
+                hiddenClicked = false
+            }
+            replaceFragment(list())
+        }
     }
 }

@@ -4,33 +4,76 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 android:layout_width="match_parent"
 android:layout_height="match_parent">
 
-<FrameLayout
-    android:id="@+id/frame_layout"
-    android:layout_width="0dp"
-    android:layout_height="0dp"
-    app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
-
-    <androidx.fragment.app.FragmentContainerView xmlns:map="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <!-- Sätt visibility = gone om inne på profil -->
+    <LinearLayout
+        android:id="@+id/filter_bar"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MapsActivity"
-        tools:layout="@layout/activity_maps" />
+        android:layout_height="40dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <Button
+            android:id="@+id/not_visited_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Not Visited"
+            android:textSize="12sp"
+            android:backgroundTint="@color/lightGray"/>
+        <Button
+            android:id="@+id/visited_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Visited"
+            android:textSize="12sp"
+            android:backgroundTint="@color/lightGray"/>
+        <Button
+            android:id="@+id/planned_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Planned"
+            android:textSize="12sp"
+            android:backgroundTint="@color/lightGray"/>
+        <Button
+            android:id="@+id/hidden_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Hidden"
+            android:textSize="12sp"
+            android:backgroundTint="@color/lightGray"/>
+    </LinearLayout>
 
-</FrameLayout>
+    <FrameLayout
+        android:id="@+id/frame_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/filter_bar">
 
-<com.google.android.material.bottomnavigation.BottomNavigationView
-    android:id="@+id/bottomNavigationView"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:menu="@menu/bottom_nav"/>
+        <androidx.fragment.app.FragmentContainerView xmlns:map="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".MapsActivity"
+            tools:layout="@layout/activity_maps" />
+    </FrameLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_nav"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
