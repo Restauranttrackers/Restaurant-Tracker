@@ -7,7 +7,9 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -56,9 +58,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             when(it.itemId) {
                 // move everything that is related to map into map() fragment
                 // not getting all map functions atm
-                R.id.map -> hideCurrentFragment()
-                R.id.list -> replaceFragment(list())
-                R.id.profile -> replaceFragment(profile())
+                R.id.map -> hideCurrentFragment(true)
+                R.id.list -> replaceFragment(list(), true)
+                R.id.profile -> replaceFragment(profile(), false)
                 else -> {
 
                 }
@@ -155,14 +157,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     override fun onMarkerClick(p0: Marker) = false
 
-    private fun replaceFragment(fragment: Fragment) {
+    private fun replaceFragment(fragment: Fragment, filterVisible: Boolean) {
+        showFilterBar(filterVisible)
+
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frame_layout, fragment, "currentFragment")
         fragmentTransaction.commit()
     }
 
-    private fun hideCurrentFragment() {
+    private fun hideCurrentFragment(filterVisible: Boolean) {
+        showFilterBar(filterVisible)
+
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         val currentFrag = fragmentManager.findFragmentByTag("currentFragment")!!
@@ -199,7 +205,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 notVisited.setBackgroundColor(getColor(R.color.lightGray))
                 notVisitedClicked = false
             }
-            replaceFragment(list())
+            replaceFragment(list(), true)
+
+            /*val fragmentManager = activity?.supportFragmentManager
+            val fragment = fragmentManager?.findFragmentById(R.id.fragment_id)
+            if (fragment != null && fragment is MyFragment) {
+                val myFragment = fragment as MyFragment
+                myFragment.adapter.notifyDataSetChanged()
+            }*/
         }
         visited.setOnClickListener {
             if(!visitedClicked) {
@@ -218,7 +231,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 visited.setBackgroundColor(getColor(R.color.lightGray))
                 visitedClicked = false
             }
-            replaceFragment(list())
         }
         planned.setOnClickListener {
             if(!plannedClicked) {
@@ -237,7 +249,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 planned.setBackgroundColor(getColor(R.color.lightGray))
                 plannedClicked = false
             }
-            replaceFragment(list())
         }
         hidden.setOnClickListener {
             if(!hiddenClicked) {
@@ -256,7 +267,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 hidden.setBackgroundColor(getColor(R.color.lightGray))
                 hiddenClicked = false
             }
-            replaceFragment(list())
+        }
+    }
+
+    private fun showFilterBar(filterVisible: Boolean) {
+        val filter: LinearLayout = findViewById(R.id.filter_bar)
+        if(!filterVisible) {
+            filter.visibility = View.GONE
+        }
+        else if(filterVisible) {
+            filter.visibility = View.VISIBLE
         }
     }
 }
