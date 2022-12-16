@@ -5,12 +5,13 @@ import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import java.lang.Thread.sleep
 
 class Database {
     private val db = Firebase.firestore
     var listRestaurants: MutableList<Restaurant> ?= mutableListOf()
-    var listUser: MutableList<User> ?= mutableListOf()
-    var userID = "NIigcM1NzqtO0omZmZF0"
+    var listUser: MutableList<User> = mutableListOf<User>()
+    private var userID = "NIigcM1NzqtO0omZmZF0"
 
     public fun userScoreIncrease(scoreIncrease: Int) {
         var newScore = 0
@@ -34,22 +35,23 @@ class Database {
         db.collection("users").document(userID)
             .get().addOnSuccessListener {
                 val activeUser = it.toObject<User>()
-                if (activeUser != null) {
-                    listUser?.add(activeUser)
+                    listUser.add(activeUser!!)
+                    Log.d("database user", "listUser $listUser ")
                 }
-                }
-            .addOnFailureListener { Log.w(TAG, "Error getting user") }
+            .addOnFailureListener {
+                Log.w(TAG, "Error getting user")
+            }
     }
 
 
-    public fun getRestaurants() {
+    fun getRestaurants() {
         listRestaurants?.clear()
         db.collection("restaurants")
             .get().addOnSuccessListener{
                 for(result in it) {
                     //Log.d(TAG, "${result.id} => ${result.data}")
-                    var restaurant = result.toObject<Restaurant>()
-                    restaurant.id = result.id;
+                    val restaurant = result.toObject<Restaurant>()
+                    restaurant.id = result.id
                     //Log.d(TAG, "${restaurant} && ${restaurant.id}")
                     listRestaurants?.add(restaurant)
                 }
@@ -66,7 +68,7 @@ class Database {
             .get().addOnSuccessListener{
                 for(result in it) {
                     //Log.d(TAG, "${result.id} => ${result.data}")
-                    var restaurant = result.toObject<Restaurant>()
+                    val restaurant = result.toObject<Restaurant>()
                     restaurant.id = result.id;
                     //Log.d(TAG, "${restaurant} && ${restaurant.id}")
                     listRestaurants?.add(restaurant)
@@ -87,9 +89,9 @@ class Database {
 }
 
 data class User(
-    val first: String? = null,
-    val last: String? = null,
-    var score: Int? = null,
+    val firstname: String? = null,
+    val lastname: String? = null,
+    val score: Int? = null,
     val banner: String? = null
 )
 

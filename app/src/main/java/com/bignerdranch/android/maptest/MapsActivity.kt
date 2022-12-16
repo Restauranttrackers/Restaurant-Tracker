@@ -7,6 +7,7 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import models.Database
+import java.lang.Thread.sleep
 import java.util.*
 
 
@@ -38,7 +40,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     companion object{
         private const val LOCATION_REQUEST_CODE = 1
-        public val data = Database()
+        val data = Database()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,9 +60,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             when(it.itemId) {
                 // move everything that is related to map into map() fragment
                 // not getting all map functions atm
-                R.id.map -> hideCurrentFragment(true)
-                R.id.list -> replaceFragment(list(), true)
-                R.id.profile -> replaceFragment(profile(), false)
+                R.id.map -> {
+                    hideCurrentFragment()
+                    showFilterBar(true)
+                }
+                R.id.list -> {
+                    replaceFragment(list())
+                    showFilterBar(true)
+                }
+                R.id.profile -> {
+                    replaceFragment(profile())
+                    showFilterBar(false)
+                }
                 else -> {
 
                 }
@@ -68,6 +79,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             true
         }
         filterByClick()
+        // someone with a working computer, test this!!#######################
+        data.getUser()
+
     }
 
     override fun onPause() {
@@ -157,18 +171,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     override fun onMarkerClick(p0: Marker) = false
 
-    private fun replaceFragment(fragment: Fragment, filterVisible: Boolean) {
-        showFilterBar(filterVisible)
-
+    private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frame_layout, fragment, "currentFragment")
         fragmentTransaction.commit()
     }
 
-    private fun hideCurrentFragment(filterVisible: Boolean) {
-        showFilterBar(filterVisible)
-
+    private fun hideCurrentFragment() {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         val currentFrag = fragmentManager.findFragmentByTag("currentFragment")!!
@@ -177,16 +187,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
 
     private fun filterByClick() {
-        // Filtreringstest
+        // Filtering test
         val notVisited: Button = findViewById(R.id.not_visited_button)
         val visited = findViewById<Button>(R.id.visited_button)
         val planned = findViewById<Button>(R.id.planned_button)
         val hidden = findViewById<Button>(R.id.hidden_button)
 
-        var notVisitedClicked: Boolean = false
-        var visitedClicked: Boolean = false
-        var plannedClicked: Boolean = false
-        var hiddenClicked: Boolean = false
+        var notVisitedClicked = false
+        var visitedClicked = false
+        var plannedClicked = false
+        var hiddenClicked = false
 
         notVisited.setOnClickListener {
             if(!notVisitedClicked) {
@@ -200,13 +210,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 plannedClicked = false
                 hiddenClicked = false
             }
-            else if(notVisitedClicked){
+            else {
                 data.getRestaurants()
                 notVisited.setBackgroundColor(getColor(R.color.lightGray))
                 notVisitedClicked = false
-            }
-            replaceFragment(list(), true)
 
+            }
+            sleep(500)
+            replaceFragment(list())
             /*val fragmentManager = activity?.supportFragmentManager
             val fragment = fragmentManager?.findFragmentById(R.id.fragment_id)
             if (fragment != null && fragment is MyFragment) {
@@ -226,13 +237,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 plannedClicked = false
                 hiddenClicked = false
             }
-            else if(visitedClicked){
+            else {
                 data.getRestaurants()
                 visited.setBackgroundColor(getColor(R.color.lightGray))
                 visitedClicked = false
             }
+            sleep(500)
+            replaceFragment(list())
         }
-        planned.setOnClickListener {
+        planned.setOnClickListener{
             if(!plannedClicked) {
                 data.getRestaurantsByStatus("Planned")
                 planned.setBackgroundColor(getColor(R.color.green))
@@ -244,11 +257,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 visitedClicked = false
                 hiddenClicked = false
             }
-            else if(plannedClicked){
+            else {
                 data.getRestaurants()
                 planned.setBackgroundColor(getColor(R.color.lightGray))
                 plannedClicked = false
             }
+            sleep(500)
+            replaceFragment(list())
         }
         hidden.setOnClickListener {
             if(!hiddenClicked) {
@@ -262,11 +277,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 visitedClicked = false
                 plannedClicked = false
             }
-            else if(hiddenClicked){
+            else {
                 data.getRestaurants()
                 hidden.setBackgroundColor(getColor(R.color.lightGray))
                 hiddenClicked = false
             }
+            sleep(500)
+            replaceFragment(list())
         }
     }
 
@@ -275,7 +292,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         if(!filterVisible) {
             filter.visibility = View.GONE
         }
-        else if(filterVisible) {
+        
+        if(filterVisible) {
             filter.visibility = View.VISIBLE
         }
     }
