@@ -27,7 +27,7 @@ class profile : Fragment() {
     private var maxScore : Int = 100
     private var score : Int = 40 // From database object setScore
     private var nextReward: Int = maxScore - score
-    private var userName: String = "Charlie Bergh" // From database object getName
+    private var userName: String = "User Usington" // From database object getName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

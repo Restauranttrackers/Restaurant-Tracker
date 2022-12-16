@@ -20,12 +20,13 @@
             android:id="@+id/buttonSettings"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/gear_icon"
             android:backgroundTint="#FF0202"
             android:scaleX="1"
             android:scaleY="1"
             app:layout_constraintEnd_toStartOf="@+id/textUser"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.246"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:rippleColor="#F30B0B"
@@ -47,15 +48,39 @@
             android:id="@+id/imageUser"
             android:layout_width="165dp"
             android:layout_height="165dp"
-            android:layout_marginTop="10dp"
+            android:elevation="20dp"
             android:src="@drawable/bavatogay_ricardo_milos"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/imageUserBorder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageUserBorder"
+            tools:visibility="visible" />
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/imageUserBorder"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/rainbow_color_colorful"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textUser"
-            tools:visibility="visible"
-            />
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/textTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Foodie"
+            android:textSize="20sp"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageUser" />
 
         <ProgressBar
             android:id="@+id/pbscore"
@@ -76,7 +101,7 @@
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageUser" />
+            app:layout_constraintTop_toBottomOf="@+id/textTitle" />
 
         <TextView
             android:id="@+id/textGoals"
@@ -84,6 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:capitalize="characters"
+            android:minHeight="48dp"
             android:singleLine="false"
             android:text="GOALS"
             android:textSize="34sp"
@@ -104,12 +130,32 @@
             app:layout_constraintTop_toBottomOf="@+id/textGoals">
 
             <TextView
-                android:id="@+id/textView9"
+                android:id="@+id/textViewR1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="TextView"
-                android:textSize="24sp" />
+                android:layout_marginTop="5sp"
+                android:text="Eat at 20 different restaurants!"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textViewR1P"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Completed!"
+                android:textSize="16sp" />
+
+            <ProgressBar
+                android:id="@+id/progressBarR1"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="275dp"
+                android:layout_height="35dp"
+                android:layout_gravity="bottom|center"
+                android:max="20"
+                android:progress="20"
+                android:scaleY="3" />
         </androidx.cardview.widget.CardView>
 
 
@@ -125,14 +171,33 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView2">
 
+            <ProgressBar
+                android:id="@+id/progressBarR2"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="275dp"
+                android:layout_height="35dp"
+                android:layout_gravity="bottom|center"
+                android:max="80"
+                android:progress="40"
+                android:scaleY="3" />
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/textViewR2P"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="40/80"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textViewR2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="TextView"
-                android:textSize="24sp" />
+                android:layout_marginTop="5sp"
+                android:text="Eat at 80 different restaurants!"
+                android:textAlignment="center"
+                android:textSize="20sp" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -140,21 +205,14 @@
             android:layout_width="300dp"
             android:layout_height="100dp"
             android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
             android:background="#FFEB3B"
             app:cardBackgroundColor="#FFEB3B"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView3">
-
-            <TextView
-                android:id="@+id/textView11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="TextView"
-                android:textSize="24sp" />
-        </androidx.cardview.widget.CardView>
+            app:layout_constraintTop_toBottomOf="@+id/cardView3"/>
 
         <View
             android:id="@+id/divider"
