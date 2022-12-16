@@ -9,6 +9,8 @@ import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
@@ -28,8 +30,6 @@ import java.util.*
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
-
-
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
 
@@ -49,6 +49,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         //data.getRestaurantsByStatus("Planned") // calls when the app runs so that we can access this in setupMap
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -94,9 +96,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         data.getRestaurants()
     }
 
-
     override fun onMapReady(googleMap: GoogleMap) {
-
         mMap = googleMap
         mMap.uiSettings.isZoomControlsEnabled = true
 
@@ -187,7 +187,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
 
     private fun filterByClick() {
-        // Filtering test
         val notVisited: Button = findViewById(R.id.not_visited_button)
         val visited = findViewById<Button>(R.id.visited_button)
         val planned = findViewById<Button>(R.id.planned_button)
@@ -218,12 +217,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             }
             sleep(500)
             replaceFragment(list())
-            /*val fragmentManager = activity?.supportFragmentManager
-            val fragment = fragmentManager?.findFragmentById(R.id.fragment_id)
-            if (fragment != null && fragment is MyFragment) {
-                val myFragment = fragment as MyFragment
-                myFragment.adapter.notifyDataSetChanged()
-            }*/
         }
         visited.setOnClickListener {
             if(!visitedClicked) {

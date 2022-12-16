@@ -3,6 +3,8 @@ package com.bignerdranch.android.maptest
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -27,6 +29,9 @@ class CardAdapter(private val restaurantList: MutableList<Restaurants>) : Recycl
         // Remove later
         holder.restaMark.text = currentItem.mark
 
+        // Dropdown
+        holder.autoTextView.setAdapter(holder.arrayAdapter)
+
         // Expand card on click
         val isExpanded: Boolean = currentItem.expanded
         holder.relativeLayout.visibility = if (isExpanded) View.VISIBLE else View.GONE
@@ -48,6 +53,11 @@ class CardAdapter(private val restaurantList: MutableList<Restaurants>) : Recycl
         val restaDescr: TextView = itemView.findViewById(R.id.rest_desc)
         val relativeLayout: RelativeLayout = itemView.findViewById(R.id.expanded_view)
         val card: CardView = itemView.findViewById(R.id.card)
+
+        // Dropdown
+        val autoTextView = itemView.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextView)
+        val marks = itemView.resources.getStringArray(R.array.marks)
+        val arrayAdapter = ArrayAdapter(itemView.context, R.layout.dropdown_item, marks)
 
         // Remove later
         val restaMark: TextView = itemView.findViewById(R.id.rest_mark)
