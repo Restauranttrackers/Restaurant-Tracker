@@ -4,26 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".profile">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        tools:visibility="visible"
-        tools:ignore="ExtraText">
+        tools:ignore="ExtraText"
+        tools:visibility="visible">
         android:background="@colors/background"
 
-        <ImageButton
-            android:id="@+id/imageSettings"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="40dp"
-            android:src="@android:drawable/ic_menu_manage"
-            app:layout_constraintBottom_toTopOf="@+id/textUser"
+        <Button
+            android:id="@+id/buttonSettings"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/gear_icon"
+            android:backgroundTint="#FF0202"
+            android:scaleX="1"
+            android:scaleY="1"
+            app:layout_constraintEnd_toStartOf="@+id/textUser"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:rippleColor="#F30B0B"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
             android:id="@+id/textUser"
@@ -32,28 +38,31 @@
             android:layout_marginTop="40dp"
             android:text="sampleUser"
             android:textSize="34sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <pl.droidsonroids.gif.GifImageView
             android:id="@+id/imageUser"
             android:layout_width="165dp"
             android:layout_height="165dp"
             android:layout_marginTop="10dp"
+            android:src="@drawable/bavatogay_ricardo_milos"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textUser"
-            android:src="@drawable/testimage"
-            tools:visibility="visible" />
+            tools:visibility="visible"
+            />
 
         <ProgressBar
-            android:id="@+id/progressBar2"
+            android:id="@+id/pbscore"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="323dp"
             android:layout_height="42dp"
+            android:scaleY="5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textScore" />
@@ -63,30 +72,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="Score"
+            android:text="Points to next Unlock: "
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageUser" />
 
+        <TextView
+            android:id="@+id/textGoals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:capitalize="characters"
+            android:singleLine="false"
+            android:text="GOALS"
+            android:textSize="34sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView2"
             android:layout_width="300dp"
             android:layout_height="100dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:background="#FFEB3B"
             app:cardBackgroundColor="#FFEB3B"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textGoals">
-
-            <ProgressBar
-                android:id="@+id/progressBar7"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="250dp"
-                android:layout_height="50dp"
-                android:layout_gravity="bottom|center_horizontal" />
 
             <TextView
                 android:id="@+id/textView9"
@@ -96,17 +111,6 @@
                 android:text="TextView"
                 android:textSize="24sp" />
         </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/textGoals"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Goals"
-            android:textSize="40dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progressBar2" />
 
 
         <androidx.cardview.widget.CardView
@@ -121,12 +125,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView2">
 
-            <ProgressBar
-                android:id="@+id/progressBar8"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="250dp"
-                android:layout_height="50dp"
-                android:layout_gravity="bottom|center_horizontal" />
 
             <TextView
                 android:id="@+id/textView10"
@@ -149,13 +147,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView3">
 
-            <ProgressBar
-                android:id="@+id/progressBar9"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="250dp"
-                android:layout_height="50dp"
-                android:layout_gravity="bottom|center_horizontal" />
-
             <TextView
                 android:id="@+id/textView11"
                 android:layout_width="wrap_content"
@@ -164,6 +155,16 @@
                 android:text="TextView"
                 android:textSize="24sp" />
         </androidx.cardview.widget.CardView>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="409dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pbscore" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
