@@ -1,7 +1,9 @@
 package models
 
+import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.util.Log
+import com.bignerdranch.android.maptest.MapsActivity
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -31,12 +33,13 @@ class Database {
             .addOnFailureListener { Log.w(TAG, "Error getting user") }
     }
 
+    @SuppressLint("SuspiciousIndentation")
     public fun getUser() {
         db.collection("users").document(userID)
             .get().addOnSuccessListener {
                 val activeUser = it.toObject<User>()
                     listUser.add(activeUser!!)
-                    Log.d("database user", "listUser $listUser ")
+                    //Log.d("database user", "listUser $listUser ")
                 }
             .addOnFailureListener {
                 Log.w(TAG, "Error getting user")

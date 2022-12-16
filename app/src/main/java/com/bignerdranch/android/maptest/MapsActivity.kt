@@ -25,6 +25,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import models.Database
+import models.User
 import java.lang.Thread.sleep
 import java.util.*
 
@@ -36,6 +37,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient : FusedLocationProviderClient
 
+    private var fragmentCheck: Boolean = false
     //private val data = Database()
 
     companion object{
@@ -64,14 +66,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 // not getting all map functions atm
                 R.id.map -> {
                     hideCurrentFragment()
+                    fragmentCheck = false
+                    resetFilterBar()
                     showFilterBar(true)
                 }
                 R.id.list -> {
+                    data.getRestaurants()
+                    sleep(200)
                     replaceFragment(list())
+                    fragmentCheck = true
+                    resetFilterBar()
                     showFilterBar(true)
                 }
                 R.id.profile -> {
                     replaceFragment(profile())
+                    fragmentCheck = true
                     showFilterBar(false)
                 }
                 else -> {
@@ -85,6 +94,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         data.getUser()
 
     }
+
 
     override fun onPause() {
         super.onPause()
@@ -139,17 +149,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 lastLocation = location
                 val currentLatLong = LatLng(location.latitude, location.longitude)
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong, 12f))
-
             }
         }
 
         // place initial markers on map from database list
+        sleep(300)
+        placeAllMarkerOnMap()
+    }
+
+    private fun placeAllMarkerOnMap() {
+        mMap.clear()
         for (document in data.listRestaurants!!) {
             val rOnePos = LatLng(document.lat as Double, document.long as Double)
             placeMarkerOnMap(rOnePos, document.name as String, document.status as String)
         }
     }
-
     private fun placeMarkerOnMap(currentLatLong: LatLng, title: String, restaurantStatus: String){
         val greenMarker = BitmapDescriptorFactory.HUE_GREEN
         val redMarker = BitmapDescriptorFactory.HUE_RED
@@ -213,10 +227,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 data.getRestaurants()
                 notVisited.setBackgroundColor(getColor(R.color.lightGray))
                 notVisitedClicked = false
-
             }
-            sleep(500)
-            replaceFragment(list())
+            sleep(200)
+            if (fragmentCheck) {
+                //Log.d("utanför emilias saker", "${data.listRestaurants}")
+                replaceFragment(list())
+            } else {
+                placeAllMarkerOnMap()
+            }
         }
         visited.setOnClickListener {
             if(!visitedClicked) {
@@ -235,8 +253,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 visited.setBackgroundColor(getColor(R.color.lightGray))
                 visitedClicked = false
             }
-            sleep(500)
-            replaceFragment(list())
+            sleep(200)
+
+            if (fragmentCheck) {
+                replaceFragment(list())
+            } else {
+                placeAllMarkerOnMap()
+            }
         }
         planned.setOnClickListener{
             if(!plannedClicked) {
@@ -255,8 +278,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 planned.setBackgroundColor(getColor(R.color.lightGray))
                 plannedClicked = false
             }
-            sleep(500)
-            replaceFragment(list())
+            sleep(200)
+            if (fragmentCheck) {
+                replaceFragment(list())
+            } else {
+                placeAllMarkerOnMap()
+            }
         }
         hidden.setOnClickListener {
             if(!hiddenClicked) {
@@ -275,9 +302,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 hidden.setBackgroundColor(getColor(R.color.lightGray))
                 hiddenClicked = false
             }
-            sleep(500)
-            replaceFragment(list())
+            sleep(200)
+            if (fragmentCheck) {
+                replaceFragment(list())
+            } else {
+                placeAllMarkerOnMap()
+            }
         }
+    }
+
+    private fun resetFilterBar() {
+        val notVisited: Button = findViewById(R.id.not_visited_button)
+        val visited = findViewById<Button>(R.id.visited_button)
+        val planned = findViewById<Button>(R.id.planned_button)
+        val hidden = findViewById<Button>(R.id.hidden_button)
+        notVisited.setBackgroundColor(getColor(R.color.lightGray))
+        visited.setBackgroundColor(getColor(R.color.lightGray))
+        planned.setBackgroundColor(getColor(R.color.lightGray))
+        hidden.setBackgroundColor(getColor(R.color.lightGray))
     }
 
     private fun showFilterBar(filterVisible: Boolean) {

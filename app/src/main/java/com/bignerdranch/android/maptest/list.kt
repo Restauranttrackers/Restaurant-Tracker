@@ -1,10 +1,11 @@
 package com.bignerdranch.android.maptest
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.maptest.MapsActivity.Companion.data
@@ -78,6 +79,7 @@ class list : Fragment() {
     }
 
     private fun getRestaurantData() {
+        //Log.d("inne i emilias saker", "${data.listRestaurants}")
         for(document in data.listRestaurants!!) {
             dataInitialize(document.name as String, document.status as String, document.info as String, document.description as String, document.image as String)
         }
@@ -94,6 +96,7 @@ class list : Fragment() {
         restaurantsArrayList.add(restaurants)
     }
 }
+
 
 data class Restaurants(
     var restaImage: String, // Restaurant image
