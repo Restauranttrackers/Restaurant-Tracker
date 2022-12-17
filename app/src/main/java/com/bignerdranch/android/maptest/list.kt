@@ -80,7 +80,7 @@ class list : Fragment() {
 
     private fun getRestaurantData() {
         //Log.d("inne i emilias saker", "${data.listRestaurants}")
-        for(document in data.listRestaurants!!) {
+        for(document in data.flexibleRestaurantList!!) {
             dataInitialize(document.name as String, document.status as String, document.info as String, document.description as String, document.image as String)
         }
     }

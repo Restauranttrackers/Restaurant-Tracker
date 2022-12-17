@@ -7,10 +7,7 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
@@ -25,10 +22,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import models.Database
-import models.User
 import java.lang.Thread.sleep
 import java.util.*
-
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
     private lateinit var mMap: GoogleMap
@@ -38,7 +33,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private lateinit var fusedLocationClient : FusedLocationProviderClient
 
     private var fragmentCheck: Boolean = false
-    //private val data = Database()
 
     companion object{
         private const val LOCATION_REQUEST_CODE = 1
@@ -48,11 +42,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         data.getRestaurants() // calls when the app runs so that we can access this in setupMap
-        //data.getRestaurantsByStatus("Planned") // calls when the app runs so that we can access this in setupMap
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -62,20 +53,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
-                // move everything that is related to map into map() fragment
-                // not getting all map functions atm
                 R.id.map -> {
+                    placeAllMarkerOnMap()
                     hideCurrentFragment()
                     fragmentCheck = false
-                    resetFilterBar()
                     showFilterBar(true)
                 }
                 R.id.list -> {
-                    data.getRestaurants()
                     sleep(200)
                     replaceFragment(list())
                     fragmentCheck = true
-                    resetFilterBar()
                     showFilterBar(true)
                 }
                 R.id.profile -> {
@@ -90,20 +77,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             true
         }
         filterByClick()
-        // someone with a working computer, test this!!#######################
         data.getUser()
-
-    }
-
-
-    override fun onPause() {
-        super.onPause()
-        data.listRestaurants?.clear()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        data.getRestaurants()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -113,7 +87,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         mMap.setOnMarkerClickListener(this)
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            sleep(500)
             setupMap()
+            sleep(500)
+            data.getAllRestaurants()
+            sleep(500)
+            placeAllMarkerOnMap()
         } else {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_REQUEST_CODE)
         }
@@ -121,7 +100,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     @SuppressLint("MissingSuperCall")
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        if (requestCode == LOCATION_REQUEST_CODE && PackageManager.PERMISSION_GRANTED in grantResults) setupMap()
+        if (requestCode == LOCATION_REQUEST_CODE && PackageManager.PERMISSION_GRANTED in grantResults) {
+            sleep(500)
+            setupMap()
+            sleep(500)
+            data.getAllRestaurants()
+            sleep(500)
+            placeAllMarkerOnMap()
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -151,19 +137,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong, 12f))
             }
         }
-
-        // place initial markers on map from database list
-        sleep(300)
-        placeAllMarkerOnMap()
     }
 
     private fun placeAllMarkerOnMap() {
         mMap.clear()
-        for (document in data.listRestaurants!!) {
+        for (document in data.flexibleRestaurantList!!) {
             val rOnePos = LatLng(document.lat as Double, document.long as Double)
             placeMarkerOnMap(rOnePos, document.name as String, document.status as String)
         }
     }
+
     private fun placeMarkerOnMap(currentLatLong: LatLng, title: String, restaurantStatus: String){
         val greenMarker = BitmapDescriptorFactory.HUE_GREEN
         val redMarker = BitmapDescriptorFactory.HUE_RED
@@ -224,13 +207,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 hiddenClicked = false
             }
             else {
-                data.getRestaurants()
+                data.getAllRestaurants()
                 notVisited.setBackgroundColor(getColor(R.color.lightGray))
                 notVisitedClicked = false
             }
             sleep(200)
             if (fragmentCheck) {
-                //Log.d("utanför emilias saker", "${data.listRestaurants}")
                 replaceFragment(list())
             } else {
                 placeAllMarkerOnMap()
@@ -239,6 +221,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         visited.setOnClickListener {
             if(!visitedClicked) {
                 data.getRestaurantsByStatus("Visited")
+
                 visited.setBackgroundColor(getColor(R.color.green))
                 notVisited.setBackgroundColor(getColor(R.color.lightGray))
                 planned.setBackgroundColor(getColor(R.color.lightGray))
@@ -249,7 +232,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 hiddenClicked = false
             }
             else {
-                data.getRestaurants()
+                data.getAllRestaurants()
                 visited.setBackgroundColor(getColor(R.color.lightGray))
                 visitedClicked = false
             }
@@ -274,7 +257,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 hiddenClicked = false
             }
             else {
-                data.getRestaurants()
+                data.getAllRestaurants()
                 planned.setBackgroundColor(getColor(R.color.lightGray))
                 plannedClicked = false
             }
@@ -298,7 +281,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 plannedClicked = false
             }
             else {
-                data.getRestaurants()
+                data.getAllRestaurants()
                 hidden.setBackgroundColor(getColor(R.color.lightGray))
                 hiddenClicked = false
             }
@@ -311,23 +294,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
     }
 
-    private fun resetFilterBar() {
-        val notVisited: Button = findViewById(R.id.not_visited_button)
-        val visited = findViewById<Button>(R.id.visited_button)
-        val planned = findViewById<Button>(R.id.planned_button)
-        val hidden = findViewById<Button>(R.id.hidden_button)
-        notVisited.setBackgroundColor(getColor(R.color.lightGray))
-        visited.setBackgroundColor(getColor(R.color.lightGray))
-        planned.setBackgroundColor(getColor(R.color.lightGray))
-        hidden.setBackgroundColor(getColor(R.color.lightGray))
-    }
-
     private fun showFilterBar(filterVisible: Boolean) {
         val filter: LinearLayout = findViewById(R.id.filter_bar)
         if(!filterVisible) {
             filter.visibility = View.GONE
         }
-        
         if(filterVisible) {
             filter.visibility = View.VISIBLE
         }

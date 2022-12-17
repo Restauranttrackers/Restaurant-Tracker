@@ -3,19 +3,18 @@ package models
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.util.Log
-import com.bignerdranch.android.maptest.MapsActivity
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import java.lang.Thread.sleep
 
 class Database {
     private val db = Firebase.firestore
-    var listRestaurants: MutableList<Restaurant> ?= mutableListOf()
-    var listUser: MutableList<User> = mutableListOf<User>()
+    private var listRestaurants: MutableList<Restaurant> ?= mutableListOf()
+    var flexibleRestaurantList: MutableList<Restaurant> ?= mutableListOf()
+    var listUser: MutableList<User> = mutableListOf()
     private var userID = "NIigcM1NzqtO0omZmZF0"
 
-    public fun userScoreIncrease(scoreIncrease: Int) {
+    fun userScoreIncrease(scoreIncrease: Int) {
         var newScore = 0
         db.collection("users").document(userID)
             .get().addOnSuccessListener {
@@ -34,7 +33,7 @@ class Database {
     }
 
     @SuppressLint("SuspiciousIndentation")
-    public fun getUser() {
+    fun getUser() {
         db.collection("users").document(userID)
             .get().addOnSuccessListener {
                 val activeUser = it.toObject<User>()
@@ -52,10 +51,8 @@ class Database {
         db.collection("restaurants")
             .get().addOnSuccessListener{
                 for(result in it) {
-                    //Log.d(TAG, "${result.id} => ${result.data}")
                     val restaurant = result.toObject<Restaurant>()
                     restaurant.id = result.id
-                    //Log.d(TAG, "${restaurant} && ${restaurant.id}")
                     listRestaurants?.add(restaurant)
                 }
             }
@@ -64,25 +61,24 @@ class Database {
             }
     }
 
-    public fun getRestaurantsByStatus(status: String) {
-        listRestaurants?.clear()
-        db.collection("restaurants")
-            .whereEqualTo("status", status)
-            .get().addOnSuccessListener{
-                for(result in it) {
-                    //Log.d(TAG, "${result.id} => ${result.data}")
-                    val restaurant = result.toObject<Restaurant>()
-                    restaurant.id = result.id;
-                    //Log.d(TAG, "${restaurant} && ${restaurant.id}")
-                    listRestaurants?.add(restaurant)
-                }
+    fun getAllRestaurants() {
+        flexibleRestaurantList?.clear()
+        for (restaurant in listRestaurants!!) {
+            if (restaurant.status != "Hidden") {
+                flexibleRestaurantList?.add(restaurant)
             }
-            .addOnFailureListener {
-                Log.w(TAG, "Error getting documents: ", it)
+        }
+    }
+    fun getRestaurantsByStatus(status: String) {
+        flexibleRestaurantList?.clear()
+        for (restaurant in listRestaurants!!) {
+            if (restaurant.status == status) {
+                flexibleRestaurantList?.add(restaurant)
             }
+        }
     }
 
-    public fun updateRestaurantStatus(newStatus: String, restaurantId: String) {
+    fun updateRestaurantStatus(newStatus: String, restaurantId: String) {
         val restaurantToChange = db.collection("restaurants").document(restaurantId)
         restaurantToChange
             .update("status", newStatus)
