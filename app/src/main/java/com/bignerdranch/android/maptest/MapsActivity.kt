@@ -7,6 +7,7 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
@@ -84,7 +85,20 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         mMap = googleMap
         mMap.uiSettings.isZoomControlsEnabled = true
 
-        mMap.setOnMarkerClickListener(this)
+        //mMap.setOnMarkerClickListener(this)
+        mMap.setOnMarkerClickListener {
+                marker ->
+                val currentLatLong = LatLng(marker.position.latitude, marker.position.longitude)
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong, 17f))
+            showInfoBar()
+        }
+        mMap.setOnMapClickListener {
+            hideCurrentFragment()
+        }
+        mMap.setOnInfoWindowClickListener {
+
+            Log.d("Testing", "hejhej")
+        }
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             sleep(500)
@@ -147,6 +161,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
     }
 
+    // Kan lägga till id här
     private fun placeMarkerOnMap(currentLatLong: LatLng, title: String, restaurantStatus: String){
         val greenMarker = BitmapDescriptorFactory.HUE_GREEN
         val redMarker = BitmapDescriptorFactory.HUE_RED
@@ -161,9 +176,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             else -> placeholderMarker
         }
 
-        val markerOptions = MarkerOptions().position(currentLatLong).icon(BitmapDescriptorFactory.defaultMarker(colorMarker))
-        markerOptions.title(title)
-        mMap.addMarker(markerOptions)
+        val markerOptions = mMap.addMarker(
+            MarkerOptions()
+                .position(currentLatLong)
+                .icon(BitmapDescriptorFactory
+                    .defaultMarker(colorMarker))
+                .title(title)
+                .snippet(title)) // Ändra till id så du kan använda marker för att veta vilken restaurang vi arbetar med
+        markerOptions?.showInfoWindow()
     }
 
     override fun onMarkerClick(p0: Marker) = false
@@ -178,9 +198,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private fun hideCurrentFragment() {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        val currentFrag = fragmentManager.findFragmentByTag("currentFragment")!!
-        fragmentTransaction.hide(currentFrag)
-        fragmentTransaction.commit()
+        val currentFrag = fragmentManager.findFragmentByTag("currentFragment")
+        if (currentFrag != null) {
+            fragmentTransaction.hide(currentFrag)
+            fragmentTransaction.commit()
+        }
     }
 
     private fun filterByClick() {
@@ -302,5 +324,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         if(filterVisible) {
             filter.visibility = View.VISIBLE
         }
+
     }
+    private fun showInfoBar(): Boolean {
+        replaceFragment(map())
+        return true
+    }
+
 }
