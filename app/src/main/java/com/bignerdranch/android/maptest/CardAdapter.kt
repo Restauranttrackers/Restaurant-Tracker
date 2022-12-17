@@ -8,6 +8,7 @@ import android.widget.AutoCompleteTextView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.imageview.ShapeableImageView
 import com.squareup.picasso.Picasso
@@ -34,7 +35,7 @@ class CardAdapter(private val restaurantList: MutableList<Restaurants>) : Recycl
 
         // Expand card on click
         val isExpanded: Boolean = currentItem.expanded
-        holder.relativeLayout.visibility = if (isExpanded) View.VISIBLE else View.GONE
+        holder.expandedCard.visibility = if (isExpanded) View.VISIBLE else View.GONE
         holder.card.setOnClickListener {
             currentItem.expanded = !currentItem.expanded
             notifyItemChanged(position)
@@ -51,7 +52,7 @@ class CardAdapter(private val restaurantList: MutableList<Restaurants>) : Recycl
         val restaName: TextView = itemView.findViewById(R.id.rest_name)
         val restaInfo: TextView = itemView.findViewById(R.id.rest_info)
         val restaDescr: TextView = itemView.findViewById(R.id.rest_desc)
-        val relativeLayout: RelativeLayout = itemView.findViewById(R.id.expanded_view)
+        val expandedCard: ConstraintLayout = itemView.findViewById(R.id.expanded_view)
         val card: CardView = itemView.findViewById(R.id.card)
 
         // Dropdown

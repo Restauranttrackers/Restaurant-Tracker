@@ -90,13 +90,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 marker ->
                 val currentLatLong = LatLng(marker.position.latitude, marker.position.longitude)
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong, 17f))
-            showInfoBar()
+            var id = ""
+            for (document in data.flexibleRestaurantList!!) {
+                val currentMarkPos = LatLng(document.lat as Double, document.long as Double)
+                if (currentMarkPos == currentLatLong) {
+                  id = document.id as String
+                }
+            }
+            showInfoCard(id)
         }
         mMap.setOnMapClickListener {
             hideCurrentFragment()
         }
         mMap.setOnInfoWindowClickListener {
-
             Log.d("Testing", "hejhej")
         }
 
@@ -157,12 +163,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         mMap.clear()
         for (document in data.flexibleRestaurantList!!) {
             val rOnePos = LatLng(document.lat as Double, document.long as Double)
-            placeMarkerOnMap(rOnePos, document.name as String, document.status as String)
+            placeMarkerOnMap(rOnePos, document.name as String, document.status as String, document.id as String)
         }
     }
 
-    // Kan lägga till id här
-    private fun placeMarkerOnMap(currentLatLong: LatLng, title: String, restaurantStatus: String){
+    private fun placeMarkerOnMap(currentLatLong: LatLng, title: String, restaurantStatus: String, id: String){
         val greenMarker = BitmapDescriptorFactory.HUE_GREEN
         val redMarker = BitmapDescriptorFactory.HUE_RED
         val yellowMarker = BitmapDescriptorFactory.HUE_YELLOW
@@ -181,8 +186,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 .position(currentLatLong)
                 .icon(BitmapDescriptorFactory
                     .defaultMarker(colorMarker))
-                .title(title)
-                .snippet(title)) // Ändra till id så du kan använda marker för att veta vilken restaurang vi arbetar med
+                .title(title))
         markerOptions?.showInfoWindow()
     }
 
@@ -326,8 +330,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
 
     }
-    private fun showInfoBar(): Boolean {
-        replaceFragment(map())
+
+    private fun showInfoCard(id: String): Boolean {
+        replaceFragment(map(id))
         return true
     }
 

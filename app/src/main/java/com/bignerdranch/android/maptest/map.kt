@@ -5,6 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.imageview.ShapeableImageView
+import com.squareup.picasso.Picasso
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -16,11 +25,13 @@ private const val ARG_PARAM2 = "param2"
  * Use the [map.newInstance] factory method to
  * create an instance of this fragment.
  */
-class map() : Fragment() {
+class map(id: String) : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
+    private var restaurantsArrayList: MutableList<Restaurants> = mutableListOf()
+    private val restaurantID: String = id
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,11 +61,59 @@ class map() : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            map().apply {
+            map("").apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        getRestaurantData()
+        dataToCard(view)
+    }
+
+    private fun getRestaurantData() {
+        for(document in MapsActivity.data.flexibleRestaurantList!!) {
+            if(document.id == restaurantID) {
+                dataInitialize(document.name as String, document.status as String, document.info as String, document.description as String, document.image as String)
+            }
+        }
+    }
+
+    private fun dataInitialize(name: String, status: String, info: String, description: String, image_url: String) {
+        val imageId: String = image_url
+        val restaName : String = name
+        val restaInfo : String = info
+        val restaDescr : String = description
+        val mark: String = status
+
+        val restaurants = Restaurants(imageId, restaName, restaInfo, restaDescr, mark)
+        restaurantsArrayList.add(restaurants)
+    }
+
+    private fun dataToCard(view: View) {
+        val restaImage: ShapeableImageView = view.findViewById(R.id.rest_image)
+        val restaName: TextView = view.findViewById(R.id.rest_name)
+        val restaInfo: TextView = view.findViewById(R.id.rest_info)
+        val restaDescr: TextView = view.findViewById(R.id.rest_desc)
+
+        Picasso.get().load(restaurantsArrayList[0].restaImage).placeholder(R.drawable.example_image).into(restaImage)
+        restaName.text = restaurantsArrayList[0].restaName
+        restaInfo.text = restaurantsArrayList[0].restaInfo
+        restaDescr.text = restaurantsArrayList[0].restaDescr
+
+        // Dropdown
+        val autoTextView = view.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextView)
+        val marks = view.resources.getStringArray(R.array.marks)
+        val arrayAdapter = ArrayAdapter(view.context, R.layout.dropdown_item, marks)
+        autoTextView.setAdapter(arrayAdapter)
+
+        // Remove later
+        val restaMark: TextView = view.findViewById(R.id.rest_mark)
+        restaMark.text = restaurantsArrayList[0].mark
     }
 }
