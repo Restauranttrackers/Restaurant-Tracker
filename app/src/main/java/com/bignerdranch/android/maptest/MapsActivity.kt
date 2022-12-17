@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -86,6 +87,23 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         mMap.setOnMarkerClickListener(this)
 
+        /*
+        mMap.setOnMarkerClickListener { marker ->
+
+            val currentLatLong = LatLng(marker.position.latitude, marker.position.longitude)
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong, 12f))
+
+            true
+        }*/
+        mMap.setOnInfoWindowClickListener {
+            Toast.makeText(this, "${it.snippet}", Toast.LENGTH_SHORT).show()
+
+        }
+
+
+
+
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             sleep(500)
             setupMap()
@@ -143,11 +161,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         mMap.clear()
         for (document in data.flexibleRestaurantList!!) {
             val rOnePos = LatLng(document.lat as Double, document.long as Double)
-            placeMarkerOnMap(rOnePos, document.name as String, document.status as String)
+            placeMarkerOnMap(rOnePos, document.name as String, document.status as String, document.id as String)
         }
     }
 
-    private fun placeMarkerOnMap(currentLatLong: LatLng, title: String, restaurantStatus: String){
+    private fun placeMarkerOnMap(currentLatLong: LatLng, title: String, restaurantStatus: String, restaurantID: String){
         val greenMarker = BitmapDescriptorFactory.HUE_GREEN
         val redMarker = BitmapDescriptorFactory.HUE_RED
         val yellowMarker = BitmapDescriptorFactory.HUE_YELLOW
@@ -161,9 +179,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             else -> placeholderMarker
         }
 
-        val markerOptions = MarkerOptions().position(currentLatLong).icon(BitmapDescriptorFactory.defaultMarker(colorMarker))
-        markerOptions.title(title)
-        mMap.addMarker(markerOptions)
+        val markerOptions = mMap.addMarker(
+            MarkerOptions()
+            .position(currentLatLong)
+            .icon(BitmapDescriptorFactory
+            .defaultMarker(colorMarker))
+            .title(title)
+                .snippet(restaurantID))
+        markerOptions?.showInfoWindow()
     }
 
     override fun onMarkerClick(p0: Marker) = false
