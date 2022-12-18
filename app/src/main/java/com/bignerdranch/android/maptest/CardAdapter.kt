@@ -27,8 +27,6 @@ class CardAdapter(private val restaurantList: MutableList<Restaurants>, private 
         holder.restaName.text = currentItem.restaName
         holder.restaInfo.text = currentItem.restaInfo
         holder.restaDescr.text = currentItem.restaDescr
-
-        // Remove later
         holder.restaMark.text = currentItem.mark
 
         // Dropdown
@@ -43,15 +41,14 @@ class CardAdapter(private val restaurantList: MutableList<Restaurants>, private 
                 val restaId = currentItem.restaId
                 if (chosenMark != currMark) {
                     data.updateRestaurantStatus(chosenMark, restaId)
-                    Toast.makeText(holder.itemView.context, "Restaurant status set to: ${chosenMark}", Toast.LENGTH_SHORT).show()
-                    // Refresha MapsActivity på något sätt så att databaslistan blir uppdaterad
+                    Toast.makeText(holder.itemView.context, "${currentItem.restaName} status set to: $chosenMark", Toast.LENGTH_SHORT).show()
+                    holder.restaMark.text = chosenMark
                     for (document in MapsActivity.data.flexibleRestaurantList!!) {
                         if (document.id == restaId) {
                             document.status = chosenMark
                         }
                     }
                 }
-
             }
         }
 
@@ -76,6 +73,7 @@ class CardAdapter(private val restaurantList: MutableList<Restaurants>, private 
         val restaDescr: TextView = itemView.findViewById(R.id.rest_desc)
         val expandedCard: ConstraintLayout = itemView.findViewById(R.id.expanded_view)
         val card: CardView = itemView.findViewById(R.id.card)
+        var restaMark: TextView = itemView.findViewById(R.id.rest_mark)
 
         // Dropdown
         val autoTextView: AutoCompleteTextView = itemView.findViewById(R.id.autoCompleteTextView)
@@ -83,8 +81,5 @@ class CardAdapter(private val restaurantList: MutableList<Restaurants>, private 
         val arrayAdapter = ArrayAdapter(itemView.context, R.layout.dropdown_item, marks)
         val input: TextInputLayout = itemView.findViewById(R.id.dropdown_menu)
         val submitButton: Button = itemView.findViewById(R.id.submit_button)
-
-        // Remove later
-        val restaMark: TextView = itemView.findViewById(R.id.rest_mark)
     }
 }

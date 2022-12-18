@@ -101,11 +101,13 @@ class map(id: String) : Fragment() {
         val restaName: TextView = view.findViewById(R.id.rest_name)
         val restaInfo: TextView = view.findViewById(R.id.rest_info)
         val restaDescr: TextView = view.findViewById(R.id.rest_desc)
+        val restaMark: TextView = view.findViewById(R.id.rest_mark)
 
         Picasso.get().load(restaurantsArrayList[0].restaImage).placeholder(R.drawable.example_image).into(restaImage)
         restaName.text = restaurantsArrayList[0].restaName
         restaInfo.text = restaurantsArrayList[0].restaInfo
         restaDescr.text = restaurantsArrayList[0].restaDescr
+        restaMark.text = restaurantsArrayList[0].mark
 
         // Dropdown
         val autoTextView = view.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextView)
@@ -124,9 +126,8 @@ class map(id: String) : Fragment() {
                 val restaId = restaurantsArrayList[0].restaId
                 if (chosenMark != currMark) {
                     data.updateRestaurantStatus(chosenMark, restaId)
-                    // Refresha MapsActivity på något sätt så att databaslistan blir uppdaterad
-                    // Något i stil med hideCurrentFragment här kanske beroende på hur det blir med Refresh :)
-                    Toast.makeText(view.context, "Restaurant status set to: ${chosenMark}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(view.context, "${restaurantsArrayList[0].restaName} status set to: $chosenMark", Toast.LENGTH_SHORT).show()
+                    restaMark.text = chosenMark
                     for (document in data.flexibleRestaurantList!!) {
                         if (document.id == restaId) {
                             document.status = chosenMark
@@ -136,10 +137,6 @@ class map(id: String) : Fragment() {
                 }
             }
         }
-
-        // Remove later
-        val restaMark: TextView = view.findViewById(R.id.rest_mark)
-        restaMark.text = restaurantsArrayList[0].mark
     }
 
     private fun placeAllMarkerOnMap() {

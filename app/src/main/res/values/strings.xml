@@ -12,7 +12,7 @@
     <string-array name="marks">
         <item>Not visited</item>
         <item>Visited</item>
-        <item>Plan to visit</item>
+        <item>Planned</item>
         <item>Hidden</item>
     </string-array>
 </resources>
