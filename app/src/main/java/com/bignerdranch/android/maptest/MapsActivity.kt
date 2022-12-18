@@ -27,7 +27,7 @@ import java.lang.Thread.sleep
 import java.util.*
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
-    private lateinit var mMap: GoogleMap
+
     private lateinit var binding: ActivityMapsBinding
 
     private lateinit var lastLocation: Location
@@ -38,6 +38,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     companion object{
         private const val LOCATION_REQUEST_CODE = 1
         val data = Database()
+        lateinit var mMap: GoogleMap
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,7 +90,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         mMap.setOnMarkerClickListener {
                 marker ->
                 val currentLatLong = LatLng(marker.position.latitude, marker.position.longitude)
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong, 17f))
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLong, 14f))
             var id = ""
             for (document in data.flexibleRestaurantList!!) {
                 val currentMarkPos = LatLng(document.lat as Double, document.long as Double)
@@ -102,9 +103,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         mMap.setOnMapClickListener {
             hideCurrentFragment()
         }
-        mMap.setOnInfoWindowClickListener {
-            Log.d("Testing", "hejhej")
-        }
+
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             sleep(500)
@@ -159,7 +158,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
     }
 
-    private fun placeAllMarkerOnMap() {
+    fun placeAllMarkerOnMap() {
         mMap.clear()
         for (document in data.flexibleRestaurantList!!) {
             val rOnePos = LatLng(document.lat as Double, document.long as Double)
@@ -167,7 +166,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
     }
 
-    private fun placeMarkerOnMap(currentLatLong: LatLng, title: String, restaurantStatus: String, id: String){
+    fun placeMarkerOnMap(currentLatLong: LatLng, title: String, restaurantStatus: String, id: String){
         val greenMarker = BitmapDescriptorFactory.HUE_GREEN
         val redMarker = BitmapDescriptorFactory.HUE_RED
         val yellowMarker = BitmapDescriptorFactory.HUE_YELLOW
@@ -187,7 +186,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 .icon(BitmapDescriptorFactory
                     .defaultMarker(colorMarker))
                 .title(title))
-        markerOptions?.showInfoWindow()
+        markerOptions?.hideInfoWindow()
     }
 
     override fun onMarkerClick(p0: Marker) = false

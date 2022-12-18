@@ -96,7 +96,7 @@ data class User(
 
 data class Restaurant(
     var id: String? = null,
-    val status: String? = null,
+    var status: String? = null,
     val lat: Double? = null,
     val long: Double? = null,
     val name: String? = null,

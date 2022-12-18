@@ -5,11 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.TextView
+import android.widget.*
 import com.bignerdranch.android.maptest.MapsActivity.Companion.data
+import com.bignerdranch.android.maptest.MapsActivity.Companion.mMap
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
@@ -125,6 +126,13 @@ class map(id: String) : Fragment() {
                     data.updateRestaurantStatus(chosenMark, restaId)
                     // Refresha MapsActivity på något sätt så att databaslistan blir uppdaterad
                     // Något i stil med hideCurrentFragment här kanske beroende på hur det blir med Refresh :)
+                    Toast.makeText(view.context, "Restaurant status set to: ${chosenMark}", Toast.LENGTH_SHORT).show()
+                    for (document in data.flexibleRestaurantList!!) {
+                        if (document.id == restaId) {
+                            document.status = chosenMark
+                        }
+                        placeAllMarkerOnMap()
+                    }
                 }
             }
         }
@@ -132,5 +140,39 @@ class map(id: String) : Fragment() {
         // Remove later
         val restaMark: TextView = view.findViewById(R.id.rest_mark)
         restaMark.text = restaurantsArrayList[0].mark
+    }
+
+    private fun placeAllMarkerOnMap() {
+        // Same as function in MapsActivity, but doesn't work to import it
+        mMap.clear()
+        for (document in data.flexibleRestaurantList!!) {
+            val rOnePos = LatLng(document.lat as Double, document.long as Double)
+            placeMarkerOnMap(rOnePos, document.name as String, document.status as String, document.id as String)
+        }
+    }
+
+    private fun placeMarkerOnMap(currentLatLong: LatLng, title: String, restaurantStatus: String, id: String){
+        // Same as function in MapsActivity, but doesn't work to import it
+        val greenMarker = BitmapDescriptorFactory.HUE_GREEN
+        val redMarker = BitmapDescriptorFactory.HUE_RED
+        val yellowMarker = BitmapDescriptorFactory.HUE_YELLOW
+        val orangeMarker = BitmapDescriptorFactory.HUE_ORANGE
+        val placeholderMarker = BitmapDescriptorFactory.HUE_VIOLET
+        val colorMarker = when (restaurantStatus) {
+            "Visited" -> greenMarker
+            "Not visited" -> redMarker
+            "Planned" -> orangeMarker
+            "Hidden" -> yellowMarker
+            else -> placeholderMarker
+        }
+
+        val markerOptions = mMap.addMarker(
+            MarkerOptions()
+                .position(currentLatLong)
+                .icon(
+                    BitmapDescriptorFactory
+                    .defaultMarker(colorMarker))
+                .title(title))
+        markerOptions?.hideInfoWindow()
     }
 }

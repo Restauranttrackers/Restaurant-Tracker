@@ -3,16 +3,14 @@ package com.bignerdranch.android.maptest
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.TextView
+import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.withContext
 import models.Database
 
 
@@ -45,8 +43,15 @@ class CardAdapter(private val restaurantList: MutableList<Restaurants>, private 
                 val restaId = currentItem.restaId
                 if (chosenMark != currMark) {
                     data.updateRestaurantStatus(chosenMark, restaId)
+                    Toast.makeText(holder.itemView.context, "Restaurant status set to: ${chosenMark}", Toast.LENGTH_SHORT).show()
                     // Refresha MapsActivity på något sätt så att databaslistan blir uppdaterad
+                    for (document in MapsActivity.data.flexibleRestaurantList!!) {
+                        if (document.id == restaId) {
+                            document.status = chosenMark
+                        }
+                    }
                 }
+
             }
         }
 
