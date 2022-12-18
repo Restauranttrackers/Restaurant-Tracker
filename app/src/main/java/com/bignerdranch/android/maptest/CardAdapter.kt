@@ -5,15 +5,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import android.widget.RelativeLayout
+import android.widget.Button
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.imageview.ShapeableImageView
+import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
+import models.Database
 
-class CardAdapter(private val restaurantList: MutableList<Restaurants>) : RecyclerView.Adapter<CardAdapter.CardHolder>()
+
+class CardAdapter(private val restaurantList: MutableList<Restaurants>, private val data: Database) : RecyclerView.Adapter<CardAdapter.CardHolder>()
 {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_cell, parent, false)
@@ -32,6 +35,20 @@ class CardAdapter(private val restaurantList: MutableList<Restaurants>) : Recycl
 
         // Dropdown
         holder.autoTextView.setAdapter(holder.arrayAdapter)
+
+        // Set mark
+        holder.submitButton.setOnClickListener {
+            val empty = ""
+            var chosenMark: String = holder.input.editText?.text.toString()
+            if (chosenMark != empty) {
+                val currMark = currentItem.mark
+                val restaId = currentItem.restaId
+                if (chosenMark != currMark) {
+                    data.updateRestaurantStatus(chosenMark, restaId)
+                    // Refresha MapsActivity på något sätt så att databaslistan blir uppdaterad
+                }
+            }
+        }
 
         // Expand card on click
         val isExpanded: Boolean = currentItem.expanded
@@ -56,9 +73,11 @@ class CardAdapter(private val restaurantList: MutableList<Restaurants>) : Recycl
         val card: CardView = itemView.findViewById(R.id.card)
 
         // Dropdown
-        val autoTextView = itemView.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextView)
+        val autoTextView: AutoCompleteTextView = itemView.findViewById(R.id.autoCompleteTextView)
         val marks = itemView.resources.getStringArray(R.array.marks)
         val arrayAdapter = ArrayAdapter(itemView.context, R.layout.dropdown_item, marks)
+        val input: TextInputLayout = itemView.findViewById(R.id.dropdown_menu)
+        val submitButton: Button = itemView.findViewById(R.id.submit_button)
 
         // Remove later
         val restaMark: TextView = itemView.findViewById(R.id.rest_mark)

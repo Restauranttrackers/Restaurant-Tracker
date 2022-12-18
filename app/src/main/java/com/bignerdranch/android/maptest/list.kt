@@ -74,31 +74,33 @@ class list : Fragment() {
         recyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
-        adapter = CardAdapter(restaurantsArrayList)
+        adapter = CardAdapter(restaurantsArrayList, data)
         recyclerView.adapter = adapter
     }
 
     private fun getRestaurantData() {
         //Log.d("inne i emilias saker", "${data.listRestaurants}")
         for(document in data.flexibleRestaurantList!!) {
-            dataInitialize(document.name as String, document.status as String, document.info as String, document.description as String, document.image as String)
+            dataInitialize(document.id as String, document.name as String, document.status as String, document.info as String, document.description as String, document.image as String)
         }
     }
 
-    private fun dataInitialize(name: String, status: String, info: String, description: String, image_url: String) {
+    private fun dataInitialize(id: String, name: String, status: String, info: String, description: String, image_url: String) {
         val imageId: String = image_url
+        val restaId: String = id
         val restaName : String = name
         val restaInfo : String = info
         val restaDescr : String = description
         val mark: String = status
 
-        val restaurants = Restaurants(imageId, restaName, restaInfo, restaDescr, mark)
+        val restaurants = Restaurants(restaId, imageId, restaName, restaInfo, restaDescr, mark)
         restaurantsArrayList.add(restaurants)
     }
 }
 
 
 data class Restaurants(
+    var restaId: String, // Restaurant ID
     var restaImage: String, // Restaurant image
     var restaName: String, // Restaurant name
     var restaInfo: String, // Some info like what type of food

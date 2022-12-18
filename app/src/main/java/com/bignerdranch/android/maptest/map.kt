@@ -7,12 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Button
 import android.widget.TextView
-import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.bignerdranch.android.maptest.MapsActivity.Companion.data
 import com.google.android.material.imageview.ShapeableImageView
+import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
 
 // TODO: Rename parameter arguments, choose names that match
@@ -79,19 +78,20 @@ class map(id: String) : Fragment() {
     private fun getRestaurantData() {
         for(document in MapsActivity.data.flexibleRestaurantList!!) {
             if(document.id == restaurantID) {
-                dataInitialize(document.name as String, document.status as String, document.info as String, document.description as String, document.image as String)
+                dataInitialize(document.id as String, document.name as String, document.status as String, document.info as String, document.description as String, document.image as String)
             }
         }
     }
 
-    private fun dataInitialize(name: String, status: String, info: String, description: String, image_url: String) {
+    private fun dataInitialize(id: String, name: String, status: String, info: String, description: String, image_url: String) {
+        val restaId: String = id
         val imageId: String = image_url
         val restaName : String = name
         val restaInfo : String = info
         val restaDescr : String = description
         val mark: String = status
 
-        val restaurants = Restaurants(imageId, restaName, restaInfo, restaDescr, mark)
+        val restaurants = Restaurants(restaId, imageId, restaName, restaInfo, restaDescr, mark)
         restaurantsArrayList.add(restaurants)
     }
 
@@ -111,6 +111,23 @@ class map(id: String) : Fragment() {
         val marks = view.resources.getStringArray(R.array.marks)
         val arrayAdapter = ArrayAdapter(view.context, R.layout.dropdown_item, marks)
         autoTextView.setAdapter(arrayAdapter)
+        val input: TextInputLayout = view.findViewById(R.id.dropdown_menu)
+        val submitButton: Button = view.findViewById(R.id.submit_button)
+
+        // Set mark
+        submitButton.setOnClickListener {
+            val empty = ""
+            var chosenMark: String = input.editText?.text.toString()
+            if (chosenMark != empty) {
+                val currMark = restaurantsArrayList[0].mark
+                val restaId = restaurantsArrayList[0].restaId
+                if (chosenMark != currMark) {
+                    data.updateRestaurantStatus(chosenMark, restaId)
+                    // Refresha MapsActivity på något sätt så att databaslistan blir uppdaterad
+                    // Något i stil med hideCurrentFragment här kanske beroende på hur det blir med Refresh :)
+                }
+            }
+        }
 
         // Remove later
         val restaMark: TextView = view.findViewById(R.id.rest_mark)
