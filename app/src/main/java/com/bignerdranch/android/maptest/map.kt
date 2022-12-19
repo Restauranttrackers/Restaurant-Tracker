@@ -107,7 +107,7 @@ class map(id: String) : Fragment() {
         restaName.text = restaurantsArrayList[0].restaName
         restaInfo.text = restaurantsArrayList[0].restaInfo
         restaDescr.text = restaurantsArrayList[0].restaDescr
-        restaMark.text = restaurantsArrayList[0].mark
+        restaMark.text = "Current mark: ${restaurantsArrayList[0].mark}"
 
         // Dropdown
         val autoTextView = view.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextView)
@@ -127,7 +127,7 @@ class map(id: String) : Fragment() {
                 if (chosenMark != currMark) {
                     data.updateRestaurantStatus(chosenMark, restaId)
                     Toast.makeText(view.context, "${restaurantsArrayList[0].restaName} status set to: $chosenMark", Toast.LENGTH_SHORT).show()
-                    restaMark.text = chosenMark
+                    restaMark.text = "Current mark: $chosenMark"
                     for (document in data.flexibleRestaurantList!!) {
                         if (document.id == restaId) {
                             document.status = chosenMark
