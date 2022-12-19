@@ -128,6 +128,7 @@ class map(id: String) : Fragment() {
                     data.updateRestaurantStatus(chosenMark, restaId)
                     Toast.makeText(view.context, "${restaurantsArrayList[0].restaName} status set to: $chosenMark", Toast.LENGTH_SHORT).show()
                     restaMark.text = "Current mark: $chosenMark"
+                    restaurantsArrayList[0].mark = chosenMark
                     for (document in data.flexibleRestaurantList!!) {
                         if (document.id == restaId) {
                             document.status = chosenMark

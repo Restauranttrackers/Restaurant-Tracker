@@ -43,6 +43,7 @@ class CardAdapter(private val restaurantList: MutableList<Restaurants>, private 
                     data.updateRestaurantStatus(chosenMark, restaId)
                     Toast.makeText(holder.itemView.context, "${currentItem.restaName} status set to: $chosenMark", Toast.LENGTH_SHORT).show()
                     holder.restaMark.text = "Current mark: $chosenMark"
+                    currentItem.mark = chosenMark
                     for (document in MapsActivity.data.flexibleRestaurantList!!) {
                         if (document.id == restaId) {
                             document.status = chosenMark
