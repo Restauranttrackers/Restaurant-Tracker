@@ -25,7 +25,7 @@ class profile : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var maxScore: Int = 100
-    private var score: Int = 33 // TODO From database object setScore == NULL
+    private var score: Int = 73 // TODO From database object setScore == NULL
     private var userName: String = "User Usington" // TODO From database object getName = NULL
     private var title: String = "Enjoyer" // TODO From json/database =NULL
     private var picture = R.drawable.bavatogay_ricardo_milos // TODO From Json/db = NULL
@@ -79,7 +79,7 @@ class profile : Fragment() {
                 pb.progress = progress
             }
             if( name == "reward2"){
-                val pb = view.findViewById<ProgressBar>(R.id.pbreward3)
+                val pb = view.findViewById<ProgressBar>(R.id.pbreward2)
                 view.findViewById<TextView>(R.id.reward2).text = tracker
                 pb.max = requirement
                 pb.progress = progress
@@ -106,31 +106,31 @@ class profile : Fragment() {
         var requirement= 20
         var tracker= ""
         if (score >= requirement) {
-            val reward1 = Rewards("reward1", "Completed!", score, 40, true)
+            val reward1 = Rewards("reward1", "Completed!", score, requirement, true)
             rewardContainer.add(reward1)
         } else {
             tracker = "$score/$requirement"
-            val reward1 = Rewards("reward1", tracker, score, 40, false)
+            val reward1 = Rewards("reward1", tracker, score, requirement, false)
             rewardContainer.add(reward1)
         }
         requirement = 40
         tracker = ""
         if (score >= requirement) {
-            val reward2 = Rewards("reward2", "Completed!", score, 80, true)
+            val reward2 = Rewards("reward2", "Completed!", score, requirement, true)
             rewardContainer.add(reward2)
         } else {
             tracker = "$score/$requirement"
-            val reward2 = Rewards("reward2", tracker, score, 80, false)
+            val reward2 = Rewards("reward2", tracker, score, requirement, false)
             rewardContainer.add(reward2)
         }
-        requirement = 60
+        requirement = 75
         tracker = ""
         if (score >= requirement) {
-            val reward3 = Rewards("reward3", "Completed!", score, 80, true)
+            val reward3 = Rewards("reward3", "Completed!", score, requirement, true)
             rewardContainer.add(reward3)
         } else {
             tracker = "$score/$requirement"
-            val reward3 = Rewards("reward3", tracker, score, 80, false)
+            val reward3 = Rewards("reward3", tracker, score, requirement, false)
             rewardContainer.add(reward3)
         }
     }

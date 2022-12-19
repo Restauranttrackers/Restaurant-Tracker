@@ -195,7 +195,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5sp"
-                android:text="Eat at 80 different restaurants!"
+                android:text="Eat at 40 different restaurants!"
                 android:textAlignment="center"
                 android:textSize="20sp" />
         </androidx.cardview.widget.CardView>
