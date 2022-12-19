@@ -49,7 +49,7 @@
             android:layout_width="165dp"
             android:layout_height="165dp"
             android:elevation="20dp"
-            android:src="@drawable/bavatogay_ricardo_milos"
+            android:src="@drawable/ic_baseline_person_24"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/imageUserBorder"
             app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +62,7 @@
             android:layout_width="175dp"
             android:layout_height="175dp"
             android:layout_marginTop="15dp"
-            android:src="@drawable/rainbow_color_colorful"
+            android:src="@drawable/simple_border_animation"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
@@ -140,7 +140,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/textViewR1P"
+                android:id="@+id/reward1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -148,7 +148,7 @@
                 android:textSize="16sp" />
 
             <ProgressBar
-                android:id="@+id/progressBarR1"
+                android:id="@+id/pbreward1"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="275dp"
                 android:layout_height="35dp"
@@ -172,7 +172,7 @@
             app:layout_constraintTop_toBottomOf="@+id/cardView2">
 
             <ProgressBar
-                android:id="@+id/progressBarR2"
+                android:id="@+id/pbreward2"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="275dp"
                 android:layout_height="35dp"
@@ -182,7 +182,7 @@
                 android:scaleY="3" />
 
             <TextView
-                android:id="@+id/textViewR2P"
+                android:id="@+id/reward2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -212,7 +212,36 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView3"/>
+            app:layout_constraintTop_toBottomOf="@+id/cardView3">
+
+            <TextView
+                android:id="@+id/textViewR3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5sp"
+                android:text="Eat at 75 different restaurants!"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/reward3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="40/80"
+                android:textSize="16sp" />
+
+            <ProgressBar
+                android:id="@+id/pbreward3"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="275dp"
+                android:layout_height="35dp"
+                android:layout_gravity="bottom|center"
+                android:max="80"
+                android:progress="40"
+                android:scaleY="3" />
+        </androidx.cardview.widget.CardView>
 
         <View
             android:id="@+id/divider"
