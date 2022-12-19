@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.bignerdranch.android.maptest.databinding.ActivityMapsBinding
@@ -320,7 +321,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
 
     private fun showFilterBar(filterVisible: Boolean) {
-        val filter: LinearLayout = findViewById(R.id.filter_bar)
+        val filter: ConstraintLayout = findViewById(R.id.filter_bar)
         if(!filterVisible) {
             filter.visibility = View.GONE
         }
