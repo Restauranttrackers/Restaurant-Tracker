@@ -1,5 +1,6 @@
 package com.bignerdranch.android.maptest
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -77,7 +78,7 @@ class map(id: String) : Fragment() {
     }
 
     private fun getRestaurantData() {
-        for(document in MapsActivity.data.flexibleRestaurantList!!) {
+        for(document in data.flexibleRestaurantList!!) {
             if(document.id == restaurantID) {
                 dataInitialize(document.id as String, document.name as String, document.status as String, document.info as String, document.description as String, document.image as String)
             }
@@ -96,6 +97,7 @@ class map(id: String) : Fragment() {
         restaurantsArrayList.add(restaurants)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun dataToCard(view: View) {
         val restaImage: ShapeableImageView = view.findViewById(R.id.rest_image)
         val restaName: TextView = view.findViewById(R.id.rest_name)
@@ -120,7 +122,7 @@ class map(id: String) : Fragment() {
         // Set mark
         submitButton.setOnClickListener {
             val empty = ""
-            var chosenMark: String = input.editText?.text.toString()
+            val chosenMark: String = input.editText?.text.toString()
             if (chosenMark != empty) {
                 val currMark = restaurantsArrayList[0].mark
                 val restaId = restaurantsArrayList[0].restaId
