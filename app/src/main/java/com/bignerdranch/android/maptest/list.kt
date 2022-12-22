@@ -68,23 +68,29 @@ class list : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         getRestaurantData()
+        setRecyclerView(view)
+    }
 
+    private fun setRecyclerView(view: View) {
+        // Setting recyclerView to a LinearLayout
         val layoutManager = LinearLayoutManager(context)
         recyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
+        // Initializing CardAdapter class with restaurants
         adapter = CardAdapter(restaurantsArrayList, data)
+        // Setting adapter to recyclerView
         recyclerView.adapter = adapter
     }
 
     private fun getRestaurantData() {
-        //Log.d("inne i emilias saker", "${data.listRestaurants}")
+        // Get restaurant data from database
         for(document in data.flexibleRestaurantList!!) {
-            dataInitialize(document.id as String, document.name as String, document.status as String, document.info as String, document.description as String, document.image as String)
+            initRestaurantArray(document.id as String, document.name as String, document.status as String, document.info as String, document.description as String, document.image as String)
         }
     }
 
-    private fun dataInitialize(id: String, name: String, status: String, info: String, description: String, image_url: String) {
+    private fun initRestaurantArray(id: String, name: String, status: String, info: String, description: String, image_url: String) {
         val imageId: String = image_url
         val restaId: String = id
         val restaName : String = name
@@ -97,13 +103,12 @@ class list : Fragment() {
     }
 }
 
-
 data class Restaurants(
     var restaId: String, // Restaurant ID
     var restaImage: String, // Restaurant image
     var restaName: String, // Restaurant name
     var restaInfo: String, // Some info like what type of food
     var restaDescr: String, // Restaurant description
-    var mark: String, // Current set mark of restaurant
+    var mark: String, // Current mark of restaurant
     var expanded : Boolean = false // If card is expanded or not
 )
