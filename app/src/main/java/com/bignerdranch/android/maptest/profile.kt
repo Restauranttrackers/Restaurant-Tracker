@@ -2,6 +2,7 @@ package com.bignerdranch.android.maptest
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,9 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import pl.droidsonroids.gif.GifImageView
+
+
+import android.widget.Button
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -53,6 +57,7 @@ class profile : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val progressBar = view.findViewById<ProgressBar>(R.id.pbscore)
 
+
         createRewards(rewardContainer)
         progressBar.max = maxScore
         progressBar.progress = score
@@ -89,6 +94,16 @@ class profile : Fragment() {
                 view.findViewById<TextView>(R.id.reward3).text = tracker
                 pb.max = requirement
                 pb.progress = progress
+            }
+        }
+
+        val settingsFragmentButton: Button = view.findViewById(R.id.buttonSettings)
+        settingsFragmentButton.setOnClickListener {
+            val fragmentManager = fragmentManager
+            val fragmentTransaction = fragmentManager?.beginTransaction()
+            if (fragmentTransaction != null) {
+                fragmentTransaction.replace(R.id.frame_layout, Setting(), "currentFragment")
+                fragmentTransaction.commit()
             }
         }
     }
@@ -153,5 +168,6 @@ class profile : Fragment() {
                 }
             }**/
     }
+
 }
 
