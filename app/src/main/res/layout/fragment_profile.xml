@@ -87,6 +87,8 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="323dp"
             android:layout_height="42dp"
+            android:progressBackgroundTint="@color/purple_500"
+            android:progressTint="@color/purple_700"
             android:scaleY="5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -123,7 +125,7 @@
             android:layout_height="100dp"
             android:layout_marginTop="15dp"
             android:background="#FFEB3B"
-            app:cardBackgroundColor="#FFEB3B"
+            app:cardBackgroundColor="#FFD1E5F4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
@@ -155,6 +157,8 @@
                 android:layout_gravity="bottom|center"
                 android:max="20"
                 android:progress="20"
+                android:progressBackgroundTint="@color/purple_500"
+                android:progressTint="@color/purple_700"
                 android:scaleY="3" />
         </androidx.cardview.widget.CardView>
 
@@ -165,7 +169,7 @@
             android:layout_height="100dp"
             android:layout_marginTop="30dp"
             android:background="#FFEB3B"
-            app:cardBackgroundColor="#FFEB3B"
+            app:cardBackgroundColor="#FFD1E5F4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
@@ -179,6 +183,8 @@
                 android:layout_gravity="bottom|center"
                 android:max="80"
                 android:progress="40"
+                android:progressBackgroundTint="@color/purple_500"
+                android:progressTint="@color/purple_700"
                 android:scaleY="3" />
 
             <TextView
@@ -207,7 +213,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
             android:background="#FFEB3B"
-            app:cardBackgroundColor="#FFEB3B"
+            app:cardBackgroundColor="#FFD1E5F4"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
@@ -240,6 +246,8 @@
                 android:layout_gravity="bottom|center"
                 android:max="80"
                 android:progress="40"
+                android:progressBackgroundTint="@color/purple_500"
+                android:progressTint="@color/purple_700"
                 android:scaleY="3" />
         </androidx.cardview.widget.CardView>
 
