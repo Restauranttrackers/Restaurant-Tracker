@@ -13,6 +13,9 @@ import pl.droidsonroids.gif.GifImageView
 import com.bignerdranch.android.maptest.MapsActivity.Companion.data
 
 
+
+import android.widget.Button
+
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
@@ -43,6 +46,7 @@ class profile : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val progressBar = view.findViewById<ProgressBar>(R.id.pbscore)
+
 
         data.getUser()
         setName()
@@ -87,6 +91,16 @@ class profile : Fragment() {
                 view.findViewById<TextView>(R.id.reward3).text = tracker
                 pb.max = requirement
                 pb.progress = progress
+            }
+        }
+
+        val settingsFragmentButton: Button = view.findViewById(R.id.buttonSettings)
+        settingsFragmentButton.setOnClickListener {
+            val fragmentManager = fragmentManager
+            val fragmentTransaction = fragmentManager?.beginTransaction()
+            if (fragmentTransaction != null) {
+                fragmentTransaction.replace(R.id.frame_layout, Setting(), "currentFragment")
+                fragmentTransaction.commit()
             }
         }
     }
