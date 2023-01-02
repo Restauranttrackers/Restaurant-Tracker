@@ -7,10 +7,5 @@
     tools:context=".list"
     android:background="@color/white"
     >
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/card_cell"
-        />
+
 </FrameLayout>

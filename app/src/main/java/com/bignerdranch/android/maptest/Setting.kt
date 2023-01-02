@@ -24,10 +24,6 @@ class Setting : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var adapter: CardAdapter
-    private lateinit var recyclerView: RecyclerView
-    private var restaurantsArrayList: MutableList<Restaurants> = mutableListOf()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -41,7 +37,7 @@ class Setting : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list, container, false)
+        return inflater.inflate(R.layout.fragment_setting, container, false)
     }
 
     companion object {
@@ -67,32 +63,6 @@ class Setting : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getRestaurantData()
-
-        val layoutManager = LinearLayoutManager(context)
-        recyclerView = view.findViewById(R.id.recycler_view)
-        recyclerView.layoutManager = layoutManager
-        recyclerView.setHasFixedSize(true)
-        adapter = CardAdapter(restaurantsArrayList, data)
-        recyclerView.adapter = adapter
     }
 
-    private fun getRestaurantData() {
-        //Log.d("inne i emilias saker", "${data.listRestaurants}")
-        for(document in data.flexibleRestaurantList!!) {
-            dataInitialize(document.id as String, document.name as String, document.status as String, document.info as String, document.description as String, document.image as String)
-        }
-    }
-
-    private fun dataInitialize(id: String, name: String, status: String, info: String, description: String, image_url: String) {
-        val imageId: String = image_url
-        val restaId: String = id
-        val restaName : String = name
-        val restaInfo : String = info
-        val restaDescr : String = description
-        val mark: String = status
-
-        val restaurants = Restaurants(restaId, imageId, restaName, restaInfo, restaDescr, mark)
-        restaurantsArrayList.add(restaurants)
-    }
 }
