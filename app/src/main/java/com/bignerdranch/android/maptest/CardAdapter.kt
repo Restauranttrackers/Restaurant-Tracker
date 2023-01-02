@@ -35,7 +35,7 @@ class CardAdapter(private val restaurantList: MutableList<Restaurants>, private 
     @SuppressLint("SetTextI18n")
     private fun dataToCard(holder: CardHolder, currentItem: Restaurants) {
         // Fill cards with restaurant data
-        Picasso.get().load(currentItem.restaImage).placeholder(R.drawable.example_image).into(holder.restaImage)
+        Picasso.get().load(currentItem.restaImage).into(holder.restaImage)
         holder.restaName.text = currentItem.restaName
         holder.restaInfo.text = currentItem.restaInfo
         holder.restaDescr.text = currentItem.restaDescr

@@ -178,7 +178,7 @@ class map(id: String) : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun dataToCard(restaImage: ShapeableImageView, restaName: TextView, restaInfo: TextView, restaDescr: TextView, restaMark: TextView, autoTextView: AutoCompleteTextView, arrayAdapter: ArrayAdapter<String>) {
         // Fill cards with restaurant data
-        Picasso.get().load(restaurantsArrayList[0].restaImage).placeholder(R.drawable.example_image).into(restaImage)
+        Picasso.get().load(restaurantsArrayList[0].restaImage).into(restaImage)
         restaName.text = restaurantsArrayList[0].restaName
         restaInfo.text = restaurantsArrayList[0].restaInfo
         restaDescr.text = restaurantsArrayList[0].restaDescr
