@@ -2,7 +2,7 @@ package com.bignerdranch.android.maptest
 
 
 import android.os.Bundle
-import android.util.Log
+import android.provider.ContactsContract.Data
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import pl.droidsonroids.gif.GifImageView
+import com.bignerdranch.android.maptest.MapsActivity.Companion.data
+
 
 
 import android.widget.Button
@@ -25,25 +27,13 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class profile : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
     private var maxScore: Int = 100
-    private var score: Int = 73 // TODO From database object setScore == NULL
-    private var userName: String = "User Usington" // TODO From database object getName = NULL
-    private var title: String = "Enjoyer" // TODO From json/database =NULL
+    private var score: Int = 0
+    private var userName: String? = null
+    private var title: String? = null
     private var picture = R.drawable.bavatogay_ricardo_milos // TODO From Json/db = NULL
     private var border = R.drawable.rainbow_color_colorful // TODO From Json/db = NULL
     private var rewardContainer = ArrayList<Rewards>()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,6 +48,12 @@ class profile : Fragment() {
         val progressBar = view.findViewById<ProgressBar>(R.id.pbscore)
 
 
+        data.getUser()
+        setName()
+        setScore()
+        setTitle()
+        setPicture()
+        setBorder()
         createRewards(rewardContainer)
         progressBar.max = maxScore
         progressBar.progress = score
@@ -67,6 +63,7 @@ class profile : Fragment() {
         view.findViewById<TextView>(R.id.textTitle).text = title
         view.findViewById<GifImageView>(R.id.imageUser).setImageResource(picture)
         view.findViewById<GifImageView>(R.id.imageUserBorder).setImageResource(border)
+        // Routine to update / Add reward to user
         rewardContainer.forEach{
             val name: String = it.name
             val tracker: String = it.tracker
@@ -107,13 +104,44 @@ class profile : Fragment() {
             }
         }
     }
+    /**
+     * Initializes the name from database
+     */
+    private fun setName(){
+    this.userName = (data.listUser[0].firstname as String) + " " + (data.listUser[0].lastname as String)
+    }
+    /**
+     * Initializes the score from database
+     */
+    private fun setScore(){
+    this.score = data.listUser[0].score as Int
+    }
+    /**
+     * Initializes the title from database
+     */
+    private fun setTitle(){
+    this.title = data.listUser[0].banner as String
+    }
+    /**
+     * Initializes the picture from settings
+     */
+    private fun setPicture(){
+    //TODO: Get from settings json
+    }
+    /**
+     * Initializes the border from settings
+     */
+    private fun setBorder(){
+    //TODO: Get from settings json
+    }
 
+    // TODO: Move to separate module
     class Rewards(
         var name: String = "", var tracker: String = "",
         var progress: Int = 0, var requirement: Int = 0, var complete: Boolean = false
     )
 
-    /*
+    /**
     * Creates Rewards objects and pushes them to the container.
     * @param ArrayList of type Rewards.
      */
@@ -148,25 +176,6 @@ class profile : Fragment() {
             val reward3 = Rewards("reward3", tracker, score, requirement, false)
             rewardContainer.add(reward3)
         }
-    }
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment map.
-         */
-        // TODO: Rename and change types and number of parameters
-/**@JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            map().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }**/
     }
 
 }
