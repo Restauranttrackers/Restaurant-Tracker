@@ -16,6 +16,12 @@ import com.bignerdranch.android.maptest.MapsActivity.Companion.data
       public fun getPicture(): Int{
           return this.picture
       }
+    public fun setPicture(picture: Int){
+        this.picture = picture
+    }
+    public fun setBorder(border: Int){
+        this.border = border
+    }
       public fun getScore(): Int{
           return this.score
       }

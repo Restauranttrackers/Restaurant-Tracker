@@ -46,8 +46,8 @@
 
         <pl.droidsonroids.gif.GifImageView
             android:id="@+id/imageUser"
-            android:layout_width="165dp"
-            android:layout_height="165dp"
+            android:layout_width="168dp"
+            android:layout_height="168dp"
             android:elevation="20dp"
             android:src="@drawable/ic_baseline_person_24"
             android:visibility="visible"

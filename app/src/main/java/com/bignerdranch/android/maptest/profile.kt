@@ -13,7 +13,6 @@ import models.ProfileController
 import android.widget.Button
 import models.Rewards
 
-
 /**
  * A simple [Fragment] subclass.
  * Use the [profile.newInstance] factory method to
@@ -22,8 +21,8 @@ import models.Rewards
 class profile : Fragment() {
     private var maxScore: Int = 100
     private var score: Int = 0
-    private var picture = R.drawable.bavatogay_ricardo_milos // TODO From Json/db = NULL
-    private var border = R.drawable.rainbow_color_colorful // TODO From Json/db = NULL
+    private var picture = R.drawable.ic_baseline_person_24 // TODO From Json/db = NULL
+    private var border = R.drawable.simple_border_animation // TODO From Json/db = NULL
     private var rewardContainer = ArrayList<Rewards>()
 
     override fun onCreateView(
@@ -45,6 +44,49 @@ class profile : Fragment() {
         val rewards = Rewards(progress = this.score)
 
         rewardContainer = rewards.createRewards(rewardContainer)
+        // Routine to update / Add reward to user
+        rewardContainer.forEach{
+            val name: String = it.name
+            val tracker: String = it.tracker
+            val progress: Int = it.progress
+            val requirement: Int = it.requirement
+            val complete: Boolean = it.complete
+
+            if( name == "reward1"){
+                val pb = view.findViewById<ProgressBar>(R.id.pbreward1)
+                view.findViewById<TextView>(R.id.reward1).text = tracker
+                pb.max = requirement
+                pb.progress = progress
+                if (complete)
+                {
+                    // TODO Add reward to user
+                    user.setPicture(R.drawable.cat_glassesgif)
+                }
+            }
+            if( name == "reward2"){
+                val pb = view.findViewById<ProgressBar>(R.id.pbreward2)
+                view.findViewById<TextView>(R.id.reward2).text = tracker
+                pb.max = requirement
+                pb.progress = progress
+                if (complete)
+                {
+                    // TODO Add reward to user
+                    user.setBorder(R.drawable.sparkle_border)
+                }
+            }
+            if( name == "reward3"){
+                val pb = view.findViewById<ProgressBar>(R.id.pbreward3)
+                view.findViewById<TextView>(R.id.reward3).text = tracker
+                pb.max = requirement
+                pb.progress = progress
+                if (complete)
+                {
+                    // TODO Add reward to user
+                    user.setPicture(R.drawable.bavatogay_ricardo_milos)
+                    user.setBorder(R.drawable.rainbow_color_colorful)
+                }
+            }
+        }
         progressBar.max = maxScore
         progressBar.progress = this.score
         view.findViewById<TextView>(R.id.textUser).text = user.getUsername()
@@ -53,36 +95,6 @@ class profile : Fragment() {
         view.findViewById<TextView>(R.id.textTitle).text = user.getTitle()
         view.findViewById<GifImageView>(R.id.imageUser).setImageResource(user.getPicture())
         view.findViewById<GifImageView>(R.id.imageUserBorder).setImageResource(user.getBorder())
-        // Routine to update / Add reward to user
-        rewardContainer.forEach{
-            val name: String = it.name
-            val tracker: String = it.tracker
-            val progress: Int = it.progress
-            val requirement: Int = it.requirement
-            val complete: Boolean = it.complete
-            if (complete)
-            {
-                // TODO Add reward to user
-            }
-            if( name == "reward1"){
-                val pb = view.findViewById<ProgressBar>(R.id.pbreward1)
-                view.findViewById<TextView>(R.id.reward1).text = tracker
-                pb.max = requirement
-                pb.progress = progress
-            }
-            if( name == "reward2"){
-                val pb = view.findViewById<ProgressBar>(R.id.pbreward2)
-                view.findViewById<TextView>(R.id.reward2).text = tracker
-                pb.max = requirement
-                pb.progress = progress
-            }
-            if( name == "reward3"){
-                val pb = view.findViewById<ProgressBar>(R.id.pbreward3)
-                view.findViewById<TextView>(R.id.reward3).text = tracker
-                pb.max = requirement
-                pb.progress = progress
-            }
-        }
 
         val settingsFragmentButton: Button = view.findViewById(R.id.buttonSettings)
         settingsFragmentButton.setOnClickListener {
