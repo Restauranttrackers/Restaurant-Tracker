@@ -19,7 +19,7 @@ import models.Rewards
  * create an instance of this fragment.
  */
 class profile : Fragment() {
-    private var maxScore: Int = 100
+    private var maxScore: Int = 20
     private var score: Int = 0
     private var picture = R.drawable.ic_baseline_person_24 // TODO From Json/db = NULL
     private var border = R.drawable.simple_border_animation // TODO From Json/db = NULL

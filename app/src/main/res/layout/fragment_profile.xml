@@ -137,7 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5sp"
-                android:text="Eat at 20 different restaurants!"
+                android:text="Eat at 5 different restaurants!"
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
@@ -201,7 +201,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5sp"
-                android:text="Eat at 40 different restaurants!"
+                android:text="Eat at 10 different restaurants!"
                 android:textAlignment="center"
                 android:textSize="20sp" />
         </androidx.cardview.widget.CardView>
@@ -226,7 +226,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5sp"
-                android:text="Eat at 75 different restaurants!"
+                android:text="Eat at 15 different restaurants!"
                 android:textAlignment="center"
                 android:textSize="20sp" />
 

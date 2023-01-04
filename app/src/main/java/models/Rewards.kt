@@ -14,7 +14,7 @@ class Rewards(
  * @param ArrayList<> of type Rewards.
  */
  fun createRewards(rewardContainer: ArrayList<Rewards>) : ArrayList<Rewards>{
-    var requirement= 20
+    var requirement= 5
     var tracker= ""
     if (progress >= requirement) {
         val reward1 = Rewards("reward1", "Completed!", progress, requirement, true)
@@ -24,7 +24,7 @@ class Rewards(
         val reward1 = Rewards("reward1", tracker, progress, requirement, false)
         rewardContainer.add(reward1)
     }
-    requirement = 40
+    requirement = 10
     tracker = ""
     if (progress >= requirement) {
         val reward2 = Rewards("reward2", "Completed!", progress, requirement, true)
@@ -34,7 +34,7 @@ class Rewards(
         val reward2 = Rewards("reward2", tracker, progress, requirement, false)
         rewardContainer.add(reward2)
     }
-    requirement = 75
+    requirement = 15
     tracker = ""
     if (progress >= requirement) {
         val reward3 = Rewards("reward3", "Completed!", progress, requirement, true)
