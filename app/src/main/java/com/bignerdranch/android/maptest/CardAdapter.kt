@@ -70,6 +70,15 @@ class CardAdapter(private val restaurantList: MutableList<Restaurants>, private 
                     currentItem.mark = chosenMark
                     for (document in MapsActivity.data.flexibleRestaurantList!!) {
                         if (document.id == restaId) {
+                            if(document.status == "Visited") {
+                                MapsActivity.data.userScoreIncrease(-5)
+                                MapsActivity.data.listUser[0].score = MapsActivity.data.listUser[0].score?.plus(-5)
+                            }
+                            document.status = chosenMark
+                            if (chosenMark == "Visited") {
+                                MapsActivity.data.userScoreIncrease(5)
+                                MapsActivity.data.listUser[0].score = MapsActivity.data.listUser[0].score?.plus(5)
+                            }
                             document.status = chosenMark
                         }
                     }

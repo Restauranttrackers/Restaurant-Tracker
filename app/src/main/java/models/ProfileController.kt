@@ -1,5 +1,6 @@
 package models
 
+import android.os.SystemClock.sleep
 import com.bignerdranch.android.maptest.MapsActivity.Companion.data
 
 /**
@@ -9,6 +10,7 @@ import com.bignerdranch.android.maptest.MapsActivity.Companion.data
       private var score: Int = data.listUser[0].score as Int
       private var userName: String = (data.listUser[0].firstname as String) + " " + (data.listUser[0].lastname as String)
       private var title: String = data.listUser[0].banner as String
+
 
       public fun getBorder(): Int{
           return this.border
