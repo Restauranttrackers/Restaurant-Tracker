@@ -220,7 +220,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         notVisited.setOnClickListener {
             if(!notVisitedClicked) {
                 data.getRestaurantsByStatus("Not visited")
-                notVisited.setBackgroundColor(getColor(R.color.green))
+                notVisited.setBackgroundColor(getColor(R.color.blue))
                 visited.setBackgroundColor(getColor(R.color.lightGray))
                 planned.setBackgroundColor(getColor(R.color.lightGray))
                 hidden.setBackgroundColor(getColor(R.color.lightGray))
@@ -245,7 +245,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             if(!visitedClicked) {
                 data.getRestaurantsByStatus("Visited")
 
-                visited.setBackgroundColor(getColor(R.color.green))
+                visited.setBackgroundColor(getColor(R.color.blue))
                 notVisited.setBackgroundColor(getColor(R.color.lightGray))
                 planned.setBackgroundColor(getColor(R.color.lightGray))
                 hidden.setBackgroundColor(getColor(R.color.lightGray))
@@ -270,7 +270,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         planned.setOnClickListener{
             if(!plannedClicked) {
                 data.getRestaurantsByStatus("Planned")
-                planned.setBackgroundColor(getColor(R.color.green))
+                planned.setBackgroundColor(getColor(R.color.blue))
                 notVisited.setBackgroundColor(getColor(R.color.lightGray))
                 visited.setBackgroundColor(getColor(R.color.lightGray))
                 hidden.setBackgroundColor(getColor(R.color.lightGray))
@@ -294,7 +294,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         hidden.setOnClickListener {
             if(!hiddenClicked) {
                 data.getRestaurantsByStatus("Hidden")
-                hidden.setBackgroundColor(getColor(R.color.green))
+                hidden.setBackgroundColor(getColor(R.color.blue))
                 notVisited.setBackgroundColor(getColor(R.color.lightGray))
                 visited.setBackgroundColor(getColor(R.color.lightGray))
                 planned.setBackgroundColor(getColor(R.color.lightGray))
