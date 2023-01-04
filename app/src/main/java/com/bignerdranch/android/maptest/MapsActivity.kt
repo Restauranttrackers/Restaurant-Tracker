@@ -30,7 +30,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private lateinit var binding: ActivityMapsBinding
 
     private lateinit var lastLocation: Location
-    private lateinit var fusedLocationClient : FusedLocationProviderClient
+    lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private var fragmentCheck: Boolean = false
 
@@ -40,7 +40,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         lateinit var mMap: GoogleMap
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         data.getRestaurants() // calls when the app runs so that we can access this in setupMap
         binding = ActivityMapsBinding.inflate(layoutInflater)
@@ -163,7 +163,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             placeMarkerOnMap(rOnePos, document.name as String, document.status as String, document.id as String)
         }
     }
-
     fun placeMarkerOnMap(currentLatLong: LatLng, title: String, restaurantStatus: String, id: String){
         val greenMarker = BitmapDescriptorFactory.HUE_GREEN
         val redMarker = BitmapDescriptorFactory.HUE_RED

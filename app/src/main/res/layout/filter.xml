@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Button
+        android:id="@+id/not_visited_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:text="Not visited"
+        android:textSize="12sp"
+        android:clickable="true"
+        />
+    <Button
+        android:id="@+id/visited_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:text="Visited"
+        android:textSize="12sp"
+        android:clickable="true"
+        />
+    <Button
+        android:id="@+id/planned_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:text="Planned"
+        android:textSize="12sp"
+        android:clickable="true"
+        />
+    <Button
+        android:id="@+id/hidden_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hidden"
+        android:textSize="12sp"
+        android:clickable="true"
+        />
+
+</LinearLayout>

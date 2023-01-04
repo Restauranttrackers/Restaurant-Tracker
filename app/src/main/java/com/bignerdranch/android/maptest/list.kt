@@ -1,5 +1,8 @@
 package com.bignerdranch.android.maptest
 
+import android.annotation.SuppressLint
+import android.content.ContentValues
+import android.media.Image
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -66,7 +69,6 @@ class list : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         getRestaurantData()
         setRecyclerView(view)
     }
