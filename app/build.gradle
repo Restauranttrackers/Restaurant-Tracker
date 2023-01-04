@@ -66,4 +66,9 @@ dependencies {
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17' // Moving gif
     implementation 'com.google.code.gson:gson:2.8.1' // Json
+
+    // Espresso GUI test
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.5.0')
+    androidTestImplementation('androidx.test:runner:1.5.1')
+    androidTestImplementation('androidx.test:rules:1.5.0')
 }
