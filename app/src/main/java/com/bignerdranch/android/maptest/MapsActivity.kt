@@ -238,13 +238,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             if (fragmentCheck) {
                 replaceFragment(list())
             } else {
+                hideCurrentFragment()
                 placeAllMarkerOnMap()
             }
         }
         visited.setOnClickListener {
             if(!visitedClicked) {
                 data.getRestaurantsByStatus("Visited")
-
                 visited.setBackgroundColor(getColor(R.color.blue))
                 notVisited.setBackgroundColor(getColor(R.color.lightGray))
                 planned.setBackgroundColor(getColor(R.color.lightGray))
@@ -264,6 +264,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             if (fragmentCheck) {
                 replaceFragment(list())
             } else {
+                hideCurrentFragment()
                 placeAllMarkerOnMap()
             }
         }
@@ -288,6 +289,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             if (fragmentCheck) {
                 replaceFragment(list())
             } else {
+                hideCurrentFragment()
                 placeAllMarkerOnMap()
             }
         }
@@ -312,6 +314,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             if (fragmentCheck) {
                 replaceFragment(list())
             } else {
+                hideCurrentFragment()
                 placeAllMarkerOnMap()
             }
         }
