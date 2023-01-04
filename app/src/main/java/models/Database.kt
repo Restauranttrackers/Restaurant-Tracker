@@ -34,6 +34,7 @@ class Database {
 
     @SuppressLint("SuspiciousIndentation")
     fun getUser() {
+        listUser.clear()
         db.collection("users").document(userID)
             .get().addOnSuccessListener {
                 val activeUser = it.toObject<User>()
@@ -90,7 +91,7 @@ class Database {
 data class User(
     val firstname: String? = null,
     val lastname: String? = null,
-    val score: Int? = null,
+    var score: Int? = null,
     val banner: String? = null
 )
 

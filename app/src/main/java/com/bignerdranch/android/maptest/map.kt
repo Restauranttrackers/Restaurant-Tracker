@@ -166,7 +166,15 @@ class map(id: String) : Fragment() {
                     restaurantsArrayList[0].mark = chosenMark
                     for (document in data.flexibleRestaurantList!!) {
                         if (document.id == restaId) {
+                            if(document.status == "Visited") {
+                                data.userScoreIncrease(-5)
+                                data.listUser[0].score = data.listUser[0].score?.plus(-5)
+                            }
                             document.status = chosenMark
+                            if (chosenMark == "Visited") {
+                                data.userScoreIncrease(5)
+                                data.listUser[0].score = data.listUser[0].score?.plus(5)
+                            }
                         }
                         placeAllMarkerOnMap()
                     }
