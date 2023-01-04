@@ -1,6 +1,5 @@
 package com.bignerdranch.android.maptest
 
-
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,6 @@ import com.squareup.picasso.Picasso
 import models.Database
 
 class CardAdapter(private val restaurantList: MutableList<Restaurants>, private val data: Database) : RecyclerView.Adapter<CardAdapter.CardHolder>()
-
 {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_cell, parent, false)
