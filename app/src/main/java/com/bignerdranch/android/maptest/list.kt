@@ -4,18 +4,13 @@ import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.media.Image
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import models.Database
-import models.Restaurant
+import com.bignerdranch.android.maptest.MapsActivity.Companion.data
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,15 +30,6 @@ class list : Fragment() {
     private lateinit var adapter: CardAdapter
     private lateinit var recyclerView: RecyclerView
     private var restaurantsArrayList: MutableList<Restaurants> = mutableListOf()
-    /*lateinit var imageId : Array<Int>
-    lateinit var restaName : Array<String>
-    lateinit var restaInfo : Array<String>
-    lateinit var restaDescr : Array<String>
-    private lateinit var restaurants: Array<String>*/
-
-    // Database
-    //val db = Firebase.firestore
-    //private val data = Database()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,54 +69,48 @@ class list : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getRestaurantData()
+        setRecyclerView(view)
+    }
 
-        getData()
-
+    private fun setRecyclerView(view: View) {
+        // Setting recyclerView to a LinearLayout
         val layoutManager = LinearLayoutManager(context)
         recyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
-        adapter = CardAdapter(restaurantsArrayList)
+        // Initializing CardAdapter class with restaurants
+        adapter = CardAdapter(restaurantsArrayList, data)
+        // Setting adapter to recyclerView
         recyclerView.adapter = adapter
     }
 
-    private fun getData() {
-        for (i in 1..4) {
-            dataInitialize("Restaurant $i", "Not Visited")
+    private fun getRestaurantData() {
+        // Get restaurant data from database
+        for(document in data.flexibleRestaurantList!!) {
+            initRestaurantArray(document.id as String, document.name as String, document.status as String, document.info as String, document.description as String, document.image as String)
         }
-        for (i in 5..13) {
-            dataInitialize("Restaurant $i", "Visited")
-        }
-        for (i in 14..20) {
-            dataInitialize("Restaurant $i", "Planned")
-        }
-        for (i in 21..23) {
-            dataInitialize("Restaurant $i", "Hidden")
-        }
-
-        /*db.collection("restaurants")
-            .get()
-            .addOnSuccessListener { result ->
-                for(document in result) {
-                    Log.d(ContentValues.TAG, "${document.id} => ${document.data}")
-                    Log.d(ContentValues.TAG, "${document.data["name"]}")
-                    // restaurant test
-                    dataInitialize(restaurantsArrayList, document.data["name"] as String, document.data["status"] as String)
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w(ContentValues.TAG, "error getting documents.", exception)
-            }*/
     }
 
-    private fun dataInitialize(title: String, restaurantStatus: String) {
-        val imageId : Int = R.drawable.example_restaurant
-        val restaName : String = title
-        val restaInfo : String = getString(R.string.some_info_like_category_of_restaurant)
-        val restaDescr : String = getString(R.string.Lorem_ipsum)
-        val mark: String = restaurantStatus
+    private fun initRestaurantArray(id: String, name: String, status: String, info: String, description: String, image_url: String) {
+        val imageId: String = image_url
+        val restaId: String = id
+        val restaName : String = name
+        val restaInfo : String = info
+        val restaDescr : String = description
+        val mark: String = status
 
-        val restaurants = Restaurants(imageId, restaName, restaInfo, restaDescr, mark)
+        val restaurants = Restaurants(restaId, imageId, restaName, restaInfo, restaDescr, mark)
         restaurantsArrayList.add(restaurants)
     }
 }
+
+data class Restaurants(
+    var restaId: String, // Restaurant ID
+    var restaImage: String, // Restaurant image
+    var restaName: String, // Restaurant name
+    var restaInfo: String, // Some info like what type of food
+    var restaDescr: String, // Restaurant description
+    var mark: String, // Current mark of restaurant
+    var expanded : Boolean = false // If card is expanded or not
+)
