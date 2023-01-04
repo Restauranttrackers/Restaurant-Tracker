@@ -25,7 +25,6 @@
         android:paddingRight="5dp"
         android:text="Not Visited"
         android:textSize="11sp"
-        app:cornerRadius="0sp"
         app:layout_constraintEnd_toStartOf="@+id/visited_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -42,7 +41,6 @@
         android:paddingRight="5dp"
         android:text="Visited"
         android:textSize="11sp"
-        app:cornerRadius="0sp"
         app:layout_constraintEnd_toStartOf="@+id/planned_button" />
 
     <Button
@@ -57,7 +55,6 @@
         android:paddingRight="5dp"
         android:text="Planned"
         android:textSize="11sp"
-        app:cornerRadius="0sp"
         app:layout_constraintEnd_toStartOf="@+id/hidden_button"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -73,7 +70,6 @@
         android:paddingRight="5dp"
         android:text="Hidden"
         android:textSize="11sp"
-        app:cornerRadius="0sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
