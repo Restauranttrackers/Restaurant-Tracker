@@ -1,51 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:visibility="visible"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/filter_bar"
     android:layout_width="match_parent"
     android:layout_height="40sp"
-    android:paddingStart="5sp"
-    android:paddingEnd="5sp"
-    app:layout_constraintTop_toTopOf="parent"
-    >
+    android:layout_gravity="center_horizontal"
+    android:background="#33FFFFFF"
+    android:paddingStart="0sp"
+    android:paddingEnd="0sp"
+    android:visibility="visible"
+    app:layout_constraintTop_toTopOf="parent">
+
     <Button
         android:id="@+id/not_visited_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:backgroundTint="@color/lightGray"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:text="Not Visited"
         android:textSize="11sp"
-        android:backgroundTint="@color/lightGray"/>
+        app:cornerRadius="0sp"
+        app:layout_constraintEnd_toStartOf="@+id/visited_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/visited_button"
-        android:layout_width="wrap_content"
+        android:layout_width="90dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/not_visited_button"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="4sp"
+        android:layout_marginEnd="1dp"
+        android:backgroundTint="@color/lightGray"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:text="Visited"
         android:textSize="11sp"
-        android:backgroundTint="@color/lightGray"/>
+        app:cornerRadius="0sp"
+        app:layout_constraintEnd_toStartOf="@+id/planned_button" />
+
     <Button
         android:id="@+id/planned_button"
-        android:layout_width="wrap_content"
+        android:layout_width="90dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@id/hidden_button"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="4sp"
+        android:layout_marginEnd="1dp"
+        android:backgroundTint="@color/lightGray"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:text="Planned"
         android:textSize="11sp"
-        android:backgroundTint="@color/lightGray"/>
+        app:cornerRadius="0sp"
+        app:layout_constraintEnd_toStartOf="@+id/hidden_button"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/hidden_button"
-        android:layout_width="wrap_content"
+        android:layout_width="90dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="1dp"
+        android:backgroundTint="@color/lightGray"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:text="Hidden"
         android:textSize="11sp"
-        android:backgroundTint="@color/lightGray"/>
+        app:cornerRadius="0sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
